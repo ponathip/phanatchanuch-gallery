@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f7f7f4;
+  color: #080808;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Noto Sans Thai", system-ui, sans-serif;
+}
+
+header .serif {
+  font-size: 28px;
+}
+
+@media (min-width: 768px) {
+  header .serif {
+    font-size: 36px;
+  }
+}
+
+.serif {
+  font-family: "Playfair Display", "Noto Serif Thai", "Noto Sans Thai", serif;
+}
+
+html:lang(th) .serif {
+  font-family: "Noto Serif Thai", "Noto Sans Thai", serif;
+}
+
+a,
+button {
+  transition:
+    color 250ms ease,
+    background-color 250ms ease,
+    border-color 250ms ease,
+    opacity 250ms ease,
+    transform 250ms ease;
+}
+
+/* Readability polish */
+p,
+a,
+button,
+input,
+textarea,
+select,
+li {
+  font-size: 15px;
+}
+
+.text-xs {
+  font-size: 12px !important;
+}
+
+.text-\[10px\] {
+  font-size: 11px !important;
+}
+
+.text-\[11px\] {
+  font-size: 12px !important;
+}
+
+.text-sm {
+  font-size: 15px !important;
+}
+
+html:lang(th) p,
+html:lang(th) a,
+html:lang(th) button,
+html:lang(th) input,
+html:lang(th) textarea,
+html:lang(th) select,
+html:lang(th) li {
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+img {
+  display: block;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page-fade {
+  animation: pageFade 700ms ease both;
+}
+
+.reveal-up {
+  animation: revealUp 850ms ease both;
+}
+
+.image-soft {
+  filter: contrast(1.02);
+}
+
+.header-logo {
+  font-family: "Playfair Display", "Noto Serif Thai", serif !important;
+  font-size: 28px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 768px) {
+  .header-logo {
+    font-size: 36px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-logo {
+    font-size: 40px !important;
+  }
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

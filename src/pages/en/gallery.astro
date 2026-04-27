@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { artworks } from "../../data/artworks";
+
+const categories = ["All", "Painting", "Mixed Media", "Paper Work"];
+---
+
+<BaseLayout
+  lang="en"
+  title="Gallery | PhanatchaNuch"
+  description="Browse selected original artworks by PhanatchaNuch."
+>
+  <section class="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-8">
+    <div class="mb-16 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.22em] text-black/50">
+          Selected Artworks
+        </p>
+
+        <h1 class="serif text-6xl leading-none md:text-8xl">
+          Gallery
+        </h1>
+      </div>
+
+      <p class="max-w-lg text-sm leading-7 text-black/60 md:justify-self-end">
+        A curated collection of works exploring texture, memory, silence,
+        and the emotional spaces in between. Prices are not displayed —
+        inquiries are handled personally.
+      </p>
+    </div>
+
+    <div class="mb-12 flex flex-col gap-6 border-y border-black/10 py-6 md:flex-row md:items-center md:justify-between">
+      <div class="flex flex-wrap gap-3">
+        {categories.map((category) => (
+          <button
+            class="filter-btn rounded-full border border-black/20 px-5 py-2 text-[11px] uppercase tracking-[0.18em] text-black/70 transition hover:border-black hover:text-black data-[active=true]:border-black data-[active=true]:bg-black data-[active=true]:text-white"
+            type="button"
+            data-filter={category}
+            data-active={category === "All" || category === "ทั้งหมด" ? "true" : "false"}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div class="flex gap-8 text-xs uppercase tracking-[0.18em] text-black/50">
+        <span>{artworks.length} Works</span>
+        <span>Newest First</span>
+      </div>
+    </div>
+
+    <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+      {artworks.map((art, index) => {
+        const isTall = index === 1 || index === 5 || index === 6;
+        const isWide = index === 3;
+
+        return (
+          <a
+            href={`/en/artworks/${art.slug}`}
+            class:list={[
+              "group block artwork-card",
+              isWide ? "sm:col-span-2 lg:col-span-2" : "",
+            ]}
+            data-category={art.category}
+          >
+            <div class="relative overflow-hidden bg-black/5">
+              <img
+                src={art.image}
+                alt={`${art.title} by PhanatchaNuch`}
+                class:list={[
+                  "w-full object-cover transition duration-700 group-hover:scale-105",
+                  isTall ? "aspect-[3/4]" : "aspect-square",
+                  isWide ? "sm:aspect-[16/9]" : "",
+                ]}
+                loading="lazy"
+              />
+
+              <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/10"></div>
+
+              <div class="absolute left-4 top-4 rounded-full bg-[#f7f7f4]/90 px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-black/70 backdrop-blur">
+                {art.status}
+              </div>
+
+              <div class="absolute bottom-4 right-4 opacity-0 transition duration-500 group-hover:opacity-100">
+                <span class="rounded-full bg-black px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-white">
+                  View Work →
+                </span>
+              </div>
+            </div>
+
+            <div class="mt-5 flex items-start justify-between gap-5">
+              <div>
+                <h2 class="serif text-2xl leading-tight">
+                  {art.title}
+                </h2>
+                <p class="mt-2 text-sm text-black/50">
+                  {art.year} · {art.medium}
+                </p>
+              </div>
+
+              <span class="hidden text-xs uppercase tracking-[0.18em] text-black/40 md:block">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".artwork-card");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.getAttribute("data-filter");
+
+        buttons.forEach((btn) => {
+          btn.setAttribute("data-active", "false");
+        });
+
+        button.setAttribute("data-active", "true");
+
+        cards.forEach((card) => {
+          const category = card.getAttribute("data-category");
+
+          if (filter === "All" || filter === "ทั้งหมด" || filter === category) {
+            card.classList.remove("hidden");
+          } else {
+            card.classList.add("hidden");
+          }
+        });
+      });
+    });
+  </script>
+</BaseLayout>
+

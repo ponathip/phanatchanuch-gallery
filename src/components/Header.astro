@@ -1,0 +1,112 @@
+---
+import { site, nav } from "../data/site";
+
+const { lang = "en" } = Astro.props as { lang?: "en" | "th" };
+const menu = nav[lang];
+
+const currentPath = Astro.url.pathname;
+
+const switchLang = lang === "en" ? "TH" : "EN";
+const switchHref = lang === "en"
+  ? currentPath.replace(/^\/en/, "/th")
+  : currentPath.replace(/^\/th/, "/en");
+---
+
+<header class="fixed left-0 top-0 z-50 w-full border-b border-black/5 bg-[#f7f7f4]/90 backdrop-blur">
+  <div class="mx-auto flex h-24 md:h-28 max-w-7xl items-center justify-between px-5 md:px-8">
+    <a href={`/${lang}`} class="header-logo serif">
+      {site.name}
+    </a>
+
+    <nav class="hidden items-center gap-9 text-[11px] uppercase tracking-[0.18em] md:flex">
+      {menu.map((item: { href: string | URL | null | undefined; label: unknown; }) => (
+        <a
+          href={item.href}
+          class:list={[
+            "border-b pb-1 transition",
+            currentPath === item.href
+              ? "border-black text-black"
+              : "border-transparent text-black/55 hover:border-black hover:text-black",
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-5">
+      <a
+        href={switchHref}
+        class="text-[11px] font-medium uppercase tracking-[0.18em] text-black/60 hover:text-black"
+      >
+        {switchLang}
+      </a>
+
+      <button
+        class="flex h-9 w-9 flex-col items-end justify-center gap-1.5 md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        data-menu-button
+      >
+        <span class="block h-px w-7 bg-black transition" data-line-one></span>
+        <span class="block h-px w-5 bg-black transition" data-line-two></span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="hidden min-h-[calc(100vh-80px)] border-t border-black/10 bg-[#f7f7f4] px-5 py-10 md:hidden"
+    data-mobile-menu
+  >
+    <nav class="flex flex-col gap-7">
+      {menu.map((item: { href: string | URL | null | undefined; label: unknown; }, index: number) => (
+        <a
+          href={item.href}
+          class="group flex items-center justify-between border-b border-black/10 pb-6"
+        >
+          <span class="serif text-4xl leading-none">{item.label}</span>
+          <span class="text-xs uppercase tracking-[0.18em] text-black/40">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="mt-12 border-t border-black/10 pt-8">
+      <p class="text-xs uppercase tracking-[0.2em] text-black/40">
+        Language
+      </p>
+
+      <div class="mt-5 flex gap-4 text-xs uppercase tracking-[0.2em]">
+        <a href={currentPath.replace(/^\/th/, "/en")} class={lang === "en" ? "text-black" : "text-black/40"}>
+          EN
+        </a>
+        <span class="text-black/20">/</span>
+        <a href={currentPath.replace(/^\/en/, "/th")} class={lang === "th" ? "text-black" : "text-black/40"}>
+          TH
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const button = document.querySelector("[data-menu-button]");
+    const menu = document.querySelector("[data-mobile-menu]");
+    const lineOne = document.querySelector("[data-line-one]");
+    const lineTwo = document.querySelector("[data-line-two]");
+
+    button?.addEventListener("click", () => {
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+
+      button.setAttribute("aria-expanded", String(!isOpen));
+      menu?.classList.toggle("hidden");
+
+      lineOne?.classList.toggle("rotate-45");
+      lineOne?.classList.toggle("translate-y-[3px]");
+
+      lineTwo?.classList.toggle("-rotate-45");
+      lineTwo?.classList.toggle("-translate-y-[4px]");
+      lineTwo?.classList.toggle("w-7");
+    });
+  </script>
+</header>

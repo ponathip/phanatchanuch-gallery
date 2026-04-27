@@ -1,0 +1,218 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { artworks } from "../../../data/artworks";
+
+export function getStaticPaths() {
+  return artworks.map((art) => ({
+    params: { slug: art.slug },
+    props: { art },
+  }));
+}
+
+const { art } = Astro.props;
+
+const relatedWorks = artworks
+  .filter((item) => item.slug !== art.slug)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  lang="en"
+  title={`${art.title} | PhanatchaNuch`}
+  description={`Explore ${art.title}, an original artwork by PhanatchaNuch.`}
+  image={art.image}
+>
+  <section class="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-8">
+    <a href="/en/gallery" class="mb-10 inline-flex text-xs uppercase tracking-[0.22em] text-black/50 hover:text-black">
+      ← Back to Gallery
+    </a>
+
+    <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+      <div class="space-y-6">
+        <div class="overflow-hidden bg-black/5">
+          <img
+            src={art.image}
+            alt={`${art.title} by PhanatchaNuch`}
+            class="max-h-[820px] w-full object-cover"
+            loading="eager"
+          />
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+          {[art.image, art.image, art.image].map((image, index) => (
+            <div class="overflow-hidden bg-black/5">
+              <img
+                src={image}
+                alt={`${art.title} detail ${index + 1}`}
+                class="aspect-[4/3] w-full object-cover opacity-80 transition hover:opacity-100"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <aside class="lg:sticky lg:top-28 lg:h-fit">
+        <div class="border-y border-black/10 py-8">
+          <p class="mb-6 text-xs uppercase tracking-[0.22em] text-black/45">
+            Artwork
+          </p>
+
+          <h1 class="serif text-5xl leading-[1.05] md:text-7xl">
+            {art.title}
+          </h1>
+
+          <p class="mt-6 text-sm uppercase tracking-[0.18em] text-black/45">
+            PhanatchaNuch, {art.year}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 border-b border-black/10 py-8 text-sm">
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Medium</p>
+            <p class="mt-2 text-black/70">{art.medium}</p>
+          </div>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Size</p>
+            <p class="mt-2 text-black/70">{art.size}</p>
+          </div>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Status</p>
+            <p class="mt-2 text-black/70">{art.status}</p>
+          </div>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Category</p>
+            <p class="mt-2 text-black/70">{art.category}</p>
+          </div>
+        </div>
+
+        <div class="border-b border-black/10 py-8">
+          <p class="mb-4 text-[11px] uppercase tracking-[0.2em] text-black/40">
+            Statement
+          </p>
+
+          <p class="text-sm leading-8 text-black/70">
+            {art.description}
+          </p>
+        </div>
+
+        <div class="space-y-4 py-8">
+          <a
+            href="/en/contact"
+            class="flex w-full items-center justify-between bg-black px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
+          >
+            Inquire About This Work <span>→</span>
+          </a>
+
+          <a
+            href="/en/gallery"
+            class="flex w-full items-center justify-between border border-black/20 px-6 py-4 text-xs uppercase tracking-[0.2em] transition hover:border-black"
+          >
+            View More Works <span>→</span>
+          </a>
+
+          <p class="pt-3 text-xs leading-6 text-black/45">
+            Prices are not displayed online. All inquiries are handled personally.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
+    <div class="mb-10 flex items-end justify-between gap-6">
+      <div>
+        <p class="mb-4 text-xs uppercase tracking-[0.22em] text-black/45">
+          Explore More
+        </p>
+        <h2 class="serif text-4xl md:text-5xl">Related Works</h2>
+      </div>
+
+      <a href="/en/gallery" class="hidden text-xs uppercase tracking-[0.2em] md:block">
+        View All →
+      </a>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+      {relatedWorks.map((item) => (
+        <a href={`/en/artworks/${item.slug}`} class="group">
+          <div class="overflow-hidden bg-black/5">
+            <button
+              type="button"
+              class="group relative w-full overflow-hidden bg-black/5 text-left"
+              data-lightbox-open
+            >
+              <img
+                src={art.image}
+                alt={`${art.title} by PhanatchaNuch`}
+                class="max-h-[820px] w-full object-cover transition duration-700 group-hover:scale-[1.02]"
+                loading="eager"
+              />
+
+              <span class="absolute bottom-5 right-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white opacity-0 transition group-hover:opacity-100">
+                View Full Image
+              </span>
+            </button>
+          </div>
+
+          <h3 class="serif mt-4 text-2xl">{item.title}</h3>
+          <p class="mt-1 text-sm text-black/50">{item.year} · {item.category}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <div
+    class="fixed inset-0 z-[100] hidden bg-black/95 p-5"
+    data-lightbox
+  >
+    <button
+      type="button"
+      class="absolute right-5 top-5 z-10 text-xs uppercase tracking-[0.2em] text-white/70 hover:text-white"
+      data-lightbox-close
+    >
+      Close
+    </button>
+
+    <div class="flex h-full items-center justify-center">
+      <img
+        src={art.image}
+        alt={`${art.title} full image`}
+        class="max-h-full max-w-full object-contain"
+      />
+    </div>
+  </div>
+
+  <script>
+    const lightbox = document.querySelector("[data-lightbox]");
+    const openBtn = document.querySelector("[data-lightbox-open]");
+    const closeBtn = document.querySelector("[data-lightbox-close]");
+
+    openBtn?.addEventListener("click", () => {
+      lightbox?.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    });
+
+    closeBtn?.addEventListener("click", () => {
+      lightbox?.classList.add("hidden");
+      document.body.style.overflow = "";
+    });
+
+    lightbox?.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        lightbox.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        lightbox?.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+    });
+  </script>
+</BaseLayout>
