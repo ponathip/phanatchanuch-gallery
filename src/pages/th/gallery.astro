@@ -8,7 +8,7 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
 <BaseLayout
   lang="th"
   title="แกลเลอรี | PhanatchaNuch"
-  description="รวมผลงานศิลปะคัดสรรโดย PhanatchaNuch"
+  description="ชมผลงานศิลปะที่คัดสรรโดย PhanatchaNuch"
 >
   <section class="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-8">
     <div class="mb-16 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-end">
@@ -23,9 +23,8 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
       </div>
 
       <p class="max-w-lg text-sm leading-7 text-black/60 md:justify-self-end">
-        คอลเลกชันผลงานที่สำรวจพื้นผิว ความทรงจำ ความเงียบ
-        และพื้นที่ระหว่างอารมณ์ โดยไม่แสดงราคา
-        เพื่อให้ผู้สนใจติดต่อพูดคุยโดยตรง
+        รวมผลงานที่สำรวจ texture, memory, silence และพื้นที่ทางอารมณ์
+        ราคาจะไม่แสดงบนเว็บไซต์ และจะพูดคุยรายละเอียดเป็นการส่วนตัว
       </p>
     </div>
 
@@ -36,8 +35,8 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
             class="filter-btn rounded-full border border-black/20 px-5 py-2 text-[11px] uppercase tracking-[0.18em] text-black/70 transition hover:border-black hover:text-black data-[active=true]:border-black data-[active=true]:bg-black data-[active=true]:text-white"
             type="button"
             data-filter={category}
-            data-active={category === "All" || category === "ทั้งหมด" ? "true" : "false"}
-            >
+            data-active={category === "ทั้งหมด" ? "true" : "false"}
+          >
             {category}
           </button>
         ))}
@@ -58,11 +57,11 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
           <a
             href={`/th/artworks/${art.slug}`}
             class:list={[
-                "group block artwork-card",
-                isWide ? "sm:col-span-2 lg:col-span-2" : "",
+              "group block artwork-card",
+              isWide ? "sm:col-span-2 lg:col-span-2" : "",
             ]}
             data-category={art.category}
-            >
+          >
             <div class="relative overflow-hidden bg-black/5">
               <img
                 src={art.image}
@@ -83,7 +82,7 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
 
               <div class="absolute bottom-4 right-4 opacity-0 transition duration-500 group-hover:opacity-100">
                 <span class="rounded-full bg-black px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-white">
-                  View Work →
+                  ดูผลงาน →
                 </span>
               </div>
             </div>
@@ -93,6 +92,7 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
                 <h2 class="serif text-2xl leading-tight">
                   {art.title}
                 </h2>
+
                 <p class="mt-2 text-sm text-black/50">
                   {art.year} · {art.medium}
                 </p>
@@ -113,26 +113,25 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
     const cards = document.querySelectorAll(".artwork-card");
 
     buttons.forEach((button) => {
-        button.addEventListener("click", () => {
+      button.addEventListener("click", () => {
         const filter = button.getAttribute("data-filter");
 
         buttons.forEach((btn) => {
-            btn.setAttribute("data-active", "false");
+          btn.setAttribute("data-active", "false");
         });
 
         button.setAttribute("data-active", "true");
 
         cards.forEach((card) => {
-            const category = card.getAttribute("data-category");
+          const category = card.getAttribute("data-category");
 
-            if (filter === "All" || filter === "ทั้งหมด" || filter === category) {
+          if (filter === "ทั้งหมด" || filter === category) {
             card.classList.remove("hidden");
-            } else {
+          } else {
             card.classList.add("hidden");
-            }
+          }
         });
-        });
+      });
     });
-    </script>
+  </script>
 </BaseLayout>
-

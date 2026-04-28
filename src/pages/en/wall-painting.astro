@@ -1,0 +1,337 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { wallArtworks } from "../../data/wallArtworks";
+
+const process = [
+  {
+    no: "01",
+    title: "Consultation",
+    text: "We talk about your space, purpose, mood, timeline, and the atmosphere you want to create.",
+  },
+  {
+    no: "02",
+    title: "Concept & Sketch",
+    text: "A visual direction is developed through references, composition, color mood, and initial sketches.",
+  },
+  {
+    no: "03",
+    title: "Painting",
+    text: "The artwork is created directly on-site with attention to texture, rhythm, balance, and the space itself.",
+  },
+  {
+    no: "04",
+    title: "Final Delivery",
+    text: "Final details are refined, the work is documented, and care guidance is shared after completion.",
+  },
+];
+
+const spaces = [
+  "Private Residence",
+  "Cafe",
+  "Hotel",
+  "Gallery",
+  "Office",
+  "Creative Space",
+];
+
+const featuredProject = wallArtworks[0];
+---
+
+<BaseLayout
+  lang="en"
+  title="Wall Painting | PhanatchaNuch"
+  description="Explore custom wall painting and mural projects by PhanatchaNuch for private spaces, cafés, hotels, galleries, and creative interiors."
+  image={featuredProject?.image ?? "/images/wall/wall-hero.jpg"}
+>
+  <!-- HERO -->
+  <section class="mx-auto grid min-h-screen max-w-7xl gap-12 px-5 pb-20 pt-32 md:grid-cols-[0.85fr_1.15fr] md:items-center md:px-8">
+    <div>
+      <p class="mb-8 text-xs uppercase tracking-[0.24em] text-black/45">
+        Custom Artwork
+      </p>
+
+      <h1 class="serif text-6xl leading-[0.95] md:text-8xl">
+        Wall<br />Painting
+      </h1>
+
+      <div class="my-10 h-px w-20 bg-black"></div>
+
+      <p class="max-w-md text-sm leading-8 text-black/65">
+        Custom mural and site-specific artwork by PhanatchaNuch.
+        Transforming walls into meaningful spaces through texture, gesture,
+        rhythm, and atmosphere.
+      </p>
+
+      <div class="mt-12 flex flex-col gap-4 sm:flex-row">
+        <a
+          href="/en/contact?type=wall-painting"
+          class="inline-flex items-center justify-between bg-black px-7 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
+        >
+          Discuss a Project <span class="ml-8">→</span>
+        </a>
+
+        <a
+          href="#projects"
+          class="inline-flex items-center justify-between border border-black/20 px-7 py-4 text-xs uppercase tracking-[0.2em] transition hover:border-black"
+        >
+          View Projects <span class="ml-8">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="relative overflow-hidden bg-black/5">
+        <img
+          src={featuredProject?.image ?? "/images/wall/wall-hero.jpg"}
+          alt="Custom wall painting by PhanatchaNuch"
+          class="h-[520px] w-full object-cover md:h-[720px]"
+          loading="eager"
+        />
+
+        <div class="absolute bottom-0 left-0 max-w-xs bg-[#f7f7f4]/90 p-5 backdrop-blur">
+          <p class="serif text-xl">
+            {featuredProject?.title ?? "Site-specific wall painting"}
+          </p>
+          <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
+            {featuredProject?.location ?? "Thailand"}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="border-y border-black/10">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-3 md:px-8">
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Service
+        </p>
+        <p class="mt-3 text-sm text-black/70">
+          Custom wall painting
+        </p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Suitable For
+        </p>
+        <p class="mt-3 text-sm text-black/70">
+          Homes, cafés, hotels, galleries, offices, and creative spaces
+        </p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Inquiry
+        </p>
+        <p class="mt-3 text-sm text-black/70">
+          Project details are discussed personally. Prices are not displayed online.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+    <div class="mb-14 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Selected Projects
+        </p>
+
+        <h2 class="serif text-5xl leading-tight md:text-7xl">
+          Walls with presence.
+        </h2>
+      </div>
+
+      <p class="max-w-lg text-sm leading-8 text-black/60 md:justify-self-end">
+        Each wall painting is designed for its environment — responding to light,
+        architecture, movement, and the emotional tone of the space.
+      </p>
+    </div>
+
+    <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+      {wallArtworks.map((project, index) => (
+        <a href={`/en/wall-painting/${project.slug}`} class="group">
+          <div class="relative overflow-hidden bg-black/5">
+            <img
+              src={project.image}
+              alt={`${project.title} wall painting project by PhanatchaNuch`}
+              class:list={[
+                "w-full object-cover transition duration-700 group-hover:scale-105",
+                index === 1 || index === 3 ? "aspect-[3/4]" : "aspect-[4/5]",
+              ]}
+              loading="lazy"
+            />
+
+            <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/10"></div>
+
+            <div class="absolute bottom-4 right-4 opacity-0 transition duration-500 group-hover:opacity-100">
+              <span class="rounded-full bg-black px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-white">
+                View Project →
+              </span>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-start justify-between gap-5">
+            <div>
+              <h3 class="serif text-2xl leading-tight">{project.title}</h3>
+              <p class="mt-2 text-sm text-black/50">
+                {project.year} · {project.location}
+              </p>
+            </div>
+
+            <span class="hidden text-xs uppercase tracking-[0.18em] text-black/35 md:block">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="bg-black text-white">
+    <div class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+      <div class="mb-16 grid gap-10 md:grid-cols-[0.75fr_1.25fr] md:items-end">
+        <div>
+          <p class="mb-6 text-xs uppercase tracking-[0.24em] text-white/45">
+            The Process
+          </p>
+
+          <h2 class="serif text-5xl leading-tight md:text-7xl">
+            From space to artwork.
+          </h2>
+        </div>
+
+        <p class="max-w-lg text-sm leading-8 text-white/60 md:justify-self-end">
+          A clear process helps every project feel personal, intentional,
+          and well-fitted to the space.
+        </p>
+      </div>
+
+      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        {process.map((item) => (
+          <div class="border-t border-white/15 pt-7">
+            <p class="mb-8 text-sm text-white/35">{item.no}</p>
+            <h3 class="serif text-3xl">{item.title}</h3>
+            <p class="mt-5 text-sm leading-8 text-white/55">
+              {item.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE AFTER -->
+  <section class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+    <div class="mb-12 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Before / After
+        </p>
+
+        <h2 class="serif text-5xl leading-tight md:text-7xl">
+          A space transformed.
+        </h2>
+      </div>
+
+      <p class="max-w-lg text-sm leading-8 text-black/60 md:justify-self-end">
+        Wall painting changes not only the surface, but also the feeling,
+        identity, and rhythm of the room.
+      </p>
+    </div>
+
+    <div class="grid overflow-hidden border border-black/10 md:grid-cols-2">
+      <div class="relative bg-black/5">
+        <img
+          src={featuredProject?.beforeImage ?? "/images/wall/before.jpg"}
+          alt="Wall before painting"
+          class="aspect-[4/3] w-full object-cover"
+          loading="lazy"
+        />
+
+        <span class="absolute bottom-5 left-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white">
+          Before
+        </span>
+      </div>
+
+      <div class="relative bg-black/5">
+        <img
+          src={featuredProject?.afterImage ?? featuredProject?.image ?? "/images/wall/after.jpg"}
+          alt="Wall after painting by PhanatchaNuch"
+          class="aspect-[4/3] w-full object-cover"
+          loading="lazy"
+        />
+
+        <span class="absolute bottom-5 right-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white">
+          After
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACES -->
+  <section class="bg-[#f7f7f4]">
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.75fr_1.25fr] md:px-8">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Spaces
+        </p>
+
+        <h2 class="serif text-5xl leading-tight md:text-7xl">
+          Designed for real environments.
+        </h2>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        {spaces.map((space) => (
+          <div class="border border-black/10 bg-white px-6 py-5">
+            <p class="text-sm uppercase tracking-[0.18em] text-black/65">
+              {space}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+    <div class="flex flex-col justify-between gap-10 border-y border-black/10 py-16 md:flex-row md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Project Inquiry
+        </p>
+
+        <h2 class="serif max-w-3xl text-5xl leading-tight md:text-7xl">
+          Let’s create something meaningful for your wall.
+        </h2>
+
+        <p class="mt-7 max-w-md text-sm leading-8 text-black/60">
+          Tell me about your space, idea, and timeline. We can discuss the
+          direction together before creating a custom proposal.
+        </p>
+      </div>
+
+      <a
+        href="/en/contact?type=wall-painting"
+        class="inline-flex items-center justify-between bg-black px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
+      >
+        Discuss a Project <span class="ml-8">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- MOBILE STICKY CTA -->
+  <div class="fixed bottom-0 left-0 z-40 w-full border-t border-black/10 bg-[#f7f7f4]/95 p-4 backdrop-blur md:hidden">
+    <a
+      href="/en/contact?type=wall-painting"
+      class="flex w-full items-center justify-between bg-black px-6 py-4 text-xs uppercase tracking-[0.18em] text-white"
+    >
+      Discuss a Project <span>→</span>
+    </a>
+  </div>
+</BaseLayout>

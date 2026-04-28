@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { artworks } from "../../data/artworks";
+import { wallArtworks } from "../../data/wallArtworks";
 
 const selectedWorks = artworks.slice(0, 6);
 const heroWork = artworks[0];
+const featuredWall = wallArtworks[0];
 ---
 
 <BaseLayout
@@ -12,9 +14,9 @@ const heroWork = artworks[0];
   description="Explore original artworks, exhibitions, and the creative world of PhanatchaNuch."
   image={heroWork.image}
 >
-  <section class="mx-auto grid min-h-screen max-w-7xl gap-12 px-5 pt-28 md:grid-cols-[0.9fr_1.1fr] md:items-center md:px-8">
+  <section class="mx-auto grid min-h-screen max-w-7xl gap-12 px-5 pt-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-center md:px-8">
     <div class="order-2 md:order-1">
-      <p class="mb-8 text-xs uppercase tracking-[0.24em] text-black/45">
+      <p class="body-text md:text-[17px] md:leading-[2] max-w-md md:max-w-lg">
         Contemporary Artist
       </p>
 
@@ -34,14 +36,14 @@ const heroWork = artworks[0];
           href="/en/gallery"
           class="inline-flex items-center justify-between bg-black px-7 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
         >
-          View Gallery <span class="ml-8">→</span>
+          View Gallery <span class="ml-8 md:text-[13px]">→</span>
         </a>
 
         <a
           href="/en/profile"
           class="inline-flex items-center justify-between border border-black/20 px-7 py-4 text-xs uppercase tracking-[0.2em] transition hover:border-black"
         >
-          Artist Profile <span class="ml-8">→</span>
+          Artist Profile <span class="ml-8 md:text-[13px]">→</span>
         </a>
       </div>
     </div>
@@ -135,6 +137,43 @@ const heroWork = artworks[0];
     </div>
   </section>
 
+  <section class="bg-[#f7f7f4]">
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.85fr_1.15fr] md:items-center md:px-8">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Wall Painting
+        </p>
+
+        <h2 class="serif text-5xl leading-tight md:text-7xl">
+          Custom artwork for real spaces.
+        </h2>
+
+        <p class="mt-8 max-w-md text-sm leading-8 text-black/65">
+          Site-specific wall painting for private residences, cafés, hotels,
+          galleries, offices, and creative interiors.
+        </p>
+
+        <a
+          href="/en/wall-painting"
+          class="mt-10 inline-flex border-b border-black pb-2 text-xs uppercase tracking-[0.2em]"
+        >
+          Explore Wall Painting →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        {artworks.slice(0, 2).map((art) => (
+          <img
+            src={art.image}
+            alt={`${art.title} by PhanatchaNuch`}
+            class="mt-16 h-[460px] w-full object-cover"
+            loading="lazy"
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="bg-black text-white">
     <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.75fr_1.25fr] md:px-8">
       <div>
@@ -194,7 +233,7 @@ const heroWork = artworks[0];
         />
 
         <img
-          src={artworks[2].image}
+          src={artworks[0].image}
           alt="Artwork detail by PhanatchaNuch"
           class="mt-16 h-[460px] w-full object-cover"
           loading="lazy"
@@ -243,7 +282,7 @@ const heroWork = artworks[0];
 
       <a
         href="/en/contact"
-        class="inline-flex bg-black px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
+        class="inline-flex min-w-[150px] items-center justify-between whitespace-nowrap bg-black px-6 py-4 text-[11px] uppercase tracking-[0.16em] text-white transition hover:bg-black/80 md:min-w-[170px] md:px-8"
       >
         Contact →
       </a>

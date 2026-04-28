@@ -18,7 +18,7 @@ const switchHref = lang === "en"
       {site.name}
     </a>
 
-    <nav class="hidden items-center gap-9 text-[11px] uppercase tracking-[0.18em] md:flex">
+    <nav class="hidden items-center gap-9 text-[11px] uppercase tracking-[0.18em] xl:flex">
       {menu.map((item: { href: string | URL | null | undefined; label: unknown; }) => (
         <a
           href={item.href}
@@ -43,7 +43,7 @@ const switchHref = lang === "en"
       </a>
 
       <button
-        class="flex h-9 w-9 flex-col items-end justify-center gap-1.5 md:hidden"
+        class="flex h-9 w-9 flex-col items-end justify-center gap-1.5 xl:hidden"
         aria-label="Open menu"
         aria-expanded="false"
         data-menu-button
@@ -55,7 +55,7 @@ const switchHref = lang === "en"
   </div>
 
   <div
-    class="hidden min-h-[calc(100vh-80px)] border-t border-black/10 bg-[#f7f7f4] px-5 py-10 md:hidden"
+    class="hidden min-h-[calc(100vh-80px)] border-t border-black/10 bg-[#f7f7f4] px-5 py-10 xl:hidden"
     data-mobile-menu
   >
     <nav class="flex flex-col gap-7">

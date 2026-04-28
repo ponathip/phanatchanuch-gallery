@@ -1,0 +1,225 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { wallArtworks } from "../../../data/wallArtworks";
+import ImageCarousel from "../../../components/ImageCarousel.astro";
+
+export function getStaticPaths() {
+  return wallArtworks.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+
+const relatedProjects = wallArtworks
+  .filter((item) => item.slug !== project.slug)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  lang="en"
+  title={`${project.title} | Wall Painting | PhanatchaNuch`}
+  description={project.description}
+  image={project.image}
+>
+  <section class="mx-auto max-w-7xl px-5 pb-20 pt-32 md:px-8">
+    <a
+      href="/en/wall-painting"
+      class="mb-10 inline-flex text-xs uppercase tracking-[0.22em] text-black/50 hover:text-black"
+    >
+      ← Back to Wall Painting
+    </a>
+
+    <div class="grid gap-12 md:grid-cols-[0.85fr_1.15fr] md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Wall Painting Project
+        </p>
+
+        <h1 class="serif text-6xl leading-[0.95] md:text-8xl">
+          {project.title}
+        </h1>
+      </div>
+
+      <p class="max-w-lg text-sm leading-8 text-black/60 md:justify-self-end">
+        {project.description}
+      </p>
+    </div>
+
+    <div class="mt-16 overflow-hidden bg-black/5">
+      <ImageCarousel
+        images={project.images ?? [project.image]}
+        title={`${project.title} wall painting by PhanatchaNuch`}
+      />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-5 pb-20 md:px-8">
+    <div class="grid gap-6 border-y border-black/10 py-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Location
+        </p>
+        <p class="mt-3 text-sm text-black/70">{project.location}</p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Year
+        </p>
+        <p class="mt-3 text-sm text-black/70">{project.year}</p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Space
+        </p>
+        <p class="mt-3 text-sm text-black/70">{project.category}</p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
+          Status
+        </p>
+        <p class="mt-3 text-sm text-black/70">{project.status}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black text-white">
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.7fr_1.3fr] md:px-8">
+      <div>
+        <p class="text-xs uppercase tracking-[0.24em] text-white/45">
+          Project Concept
+        </p>
+      </div>
+
+      <div>
+        <h2 class="serif max-w-4xl text-4xl leading-tight md:text-6xl">
+          Artwork created for the feeling of the space.
+        </h2>
+
+        <p class="mt-10 max-w-2xl text-sm leading-8 text-white/65">
+          {project.concept}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+    <div class="mb-12 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Before / After
+        </p>
+
+        <h2 class="serif text-5xl leading-tight md:text-7xl">
+          Transformation of space.
+        </h2>
+      </div>
+
+      <p class="max-w-lg text-sm leading-8 text-black/60 md:justify-self-end">
+        A wall painting can change the identity of a room, creating a visual
+        atmosphere that belongs specifically to that space.
+      </p>
+    </div>
+
+    <div class="grid overflow-hidden border border-black/10 md:grid-cols-2">
+      <div class="relative bg-black/5">
+        <img
+          src={project.beforeImage}
+          alt={`${project.title} before wall painting`}
+          class="aspect-[4/3] w-full object-cover"
+          loading="lazy"
+        />
+
+        <span class="absolute bottom-5 left-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white">
+          Before
+        </span>
+      </div>
+
+      <div class="relative bg-black/5">
+        <img
+          src={project.afterImage}
+          alt={`${project.title} after wall painting by PhanatchaNuch`}
+          class="aspect-[4/3] w-full object-cover"
+          loading="lazy"
+        />
+
+        <span class="absolute bottom-5 right-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white">
+          After
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#f7f7f4]">
+    <div class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+      <div class="mb-12 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="mb-5 text-xs uppercase tracking-[0.24em] text-black/45">
+            Related Projects
+          </p>
+
+          <h2 class="serif text-5xl leading-tight md:text-7xl">
+            More wall works.
+          </h2>
+        </div>
+
+        <a
+          href="/en/wall-painting"
+          class="inline-flex border-b border-black pb-2 text-xs uppercase tracking-[0.2em]"
+        >
+          View All →
+        </a>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {relatedProjects.map((item) => (
+          <a href={`/en/wall-painting/${item.slug}`} class="group">
+            <div class="overflow-hidden bg-black/5">
+              <img
+                src={item.image}
+                alt={`${item.title} wall painting by PhanatchaNuch`}
+                class="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+
+            <h3 class="serif mt-5 text-2xl">{item.title}</h3>
+            <p class="mt-2 text-sm text-black/50">
+              {item.year} · {item.location}
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-5 py-24 md:px-8">
+    <div class="flex flex-col justify-between gap-10 border-y border-black/10 py-16 md:flex-row md:items-end">
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Project Inquiry
+        </p>
+
+        <h2 class="serif max-w-3xl text-5xl leading-tight md:text-7xl">
+          Want a custom wall painting for your space?
+        </h2>
+
+        <p class="mt-7 max-w-md text-sm leading-8 text-black/60">
+          Share your space, idea, timeline, and direction. Every project is
+          discussed personally before creating a proposal.
+        </p>
+      </div>
+
+      <a
+        href={`/en/contact?type=wall-painting&project=${project.slug}`}
+        class="inline-flex items-center justify-between bg-black px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
+      >
+        Discuss a Project <span class="ml-8">→</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

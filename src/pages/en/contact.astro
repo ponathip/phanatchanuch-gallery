@@ -8,7 +8,7 @@ import { site } from "../../data/site";
   title="Contact PhanatchaNuch | Artwork Inquiry"
   description="Get in touch with PhanatchaNuch for artwork inquiries, collaborations, or exhibitions."
 >
-  <section class="mx-auto grid min-h-screen max-w-7xl gap-14 px-5 pb-24 pt-32 md:grid-cols-[0.8fr_1.2fr] md:px-8">
+  <section class="mx-auto grid min-h-screen max-w-7xl gap-14 px-5 pb-24 pt-32 lg:grid-cols-[0.8fr_1.2fr] md:px-8">
     <div class="flex flex-col justify-between">
       <div>
         <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
@@ -28,22 +28,22 @@ import { site } from "../../data/site";
       <div class="mt-14 grid gap-6 border-y border-black/10 py-8 text-sm sm:grid-cols-2">
         <div>
           <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Email</p>
-          <p class="mt-3 text-black/70">{site.email}</p>
+          <p class="text-\[12px\] mt-3 text-black/70">{site.email}</p>
         </div>
 
         <div>
           <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Instagram</p>
-          <p class="mt-3 text-black/70">@{site.instagram}</p>
+          <p class="text-\[12px\] mt-3 text-black/70">@{site.instagram}</p>
         </div>
 
         <div>
           <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Location</p>
-          <p class="mt-3 text-black/70">{site.location.en}</p>
+          <p class="text-\[12px\] mt-3 text-black/70">{site.location.en}</p>
         </div>
 
         <div>
           <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">Response</p>
-          <p class="mt-3 text-black/70">Usually within 24 hours</p>
+          <p class="text-\[12px\] mt-3 text-black/70">Usually within 24 hours</p>
         </div>
       </div>
     </div>
@@ -84,10 +84,11 @@ import { site } from "../../data/site";
             class="mt-3 w-full border-b border-black/30 bg-transparent py-4 text-sm outline-none transition focus:border-black"
             name="type"
           >
-            <option>Artwork inquiry</option>
-            <option>Exhibition</option>
-            <option>Collaboration</option>
-            <option>Private viewing</option>
+            <option value="artwork">Artwork inquiry</option>
+            <option value="wall-painting">Wall painting project</option>
+            <option value="exhibition">Exhibition</option>
+            <option value="collaboration">Collaboration</option>
+            <option value="private-viewing">Private viewing</option>
           </select>
         </div>
 
@@ -117,7 +118,7 @@ import { site } from "../../data/site";
           Message sent successfully. This is a mockup form for preview.
         </div>
 
-        <p class="text-xs leading-6 text-black/45">
+        <p class="text-\[12px\] leading-6 text-black/45">
           All inquiries are private. Prices are not displayed online and will be discussed personally.
         </p>
       </form>
@@ -127,6 +128,33 @@ import { site } from "../../data/site";
   <script>
     const form = document.getElementById("contactForm");
     const message = document.getElementById("formMessage");
+
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+    const artwork = params.get("artwork");
+    const project = params.get("project");
+
+    const typeSelect = form?.querySelector("select[name='type']");
+    const messageInput = form?.querySelector("textarea[name='message']");
+
+    if (typeSelect instanceof HTMLSelectElement && type) {
+      typeSelect.value = type;
+    }
+
+    if (messageInput instanceof HTMLTextAreaElement) {
+      if (artwork) {
+        messageInput.value = `Hello, I am interested in the artwork: ${artwork}. Please share more details.`;
+      }
+
+      if (project) {
+        messageInput.value = `Hello, I am interested in a wall painting project related to: ${project}. Please share more details.`;
+      }
+
+      if (type === "wall-painting" && !project) {
+        messageInput.value =
+          "Hello, I am interested in a custom wall painting project. I would like to discuss my space, idea, and timeline.";
+      }
+    }
 
     form?.addEventListener("submit", (event) => {
       event.preventDefault();

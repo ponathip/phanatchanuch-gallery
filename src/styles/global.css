@@ -48,11 +48,11 @@ input,
 textarea,
 select,
 li {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .text-xs {
-  font-size: 12px !important;
+  font-size: 16px !important;
 }
 
 .text-\[10px\] {
@@ -60,11 +60,15 @@ li {
 }
 
 .text-\[11px\] {
-  font-size: 12px !important;
+  font-size: 17px !important;
+}
+
+.text-\[12px\] {
+  font-size: 18px !important;
 }
 
 .text-sm {
-  font-size: 15px !important;
+  font-size: 19px !important;
 }
 
 html:lang(th) p,
@@ -110,6 +114,81 @@ button {
   font-size: 28px !important;
   line-height: 1 !important;
   letter-spacing: -0.02em !important;
+}
+
+/* HERO TITLE */
+.heading-hero {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  font-size: 44px;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* SECTION TITLE */
+.heading-section {
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* CARD TITLE */
+.heading-card {
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* LABEL (Selected Works, Exhibition) */
+.label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* BODY TEXT */
+.body-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* BUTTON TEXT */
+.button-text {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+@media (min-width: 768px) {
+  .body-text {
+    font-size: 20px !important;
+    line-height: 2 !important;
+  }
+}
+/* =========================
+   RESPONSIVE SCALE
+========================= */
+
+@media (min-width: 640px) {
+  .heading-hero {
+    font-size: 60px;
+  }
+
+  .heading-section {
+    font-size: 56px;
+  }
+}
+
+@media (min-width: 768px) {
+  .heading-hero {
+    font-size: 92px;
+  }
+
+  .heading-section {
+    font-size: 72px;
+  }
 }
 
 @media (min-width: 768px) {
