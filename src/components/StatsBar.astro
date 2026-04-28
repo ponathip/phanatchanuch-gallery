@@ -1,0 +1,77 @@
+---
+const {
+  slug,
+  viewCount = 0,
+  likeCount = 0,
+  lang = "en",
+} = Astro.props;
+
+const isTH = lang === "th";
+---
+
+<div
+  class="flex items-center gap-6 border-b border-black/10 py-6 text-sm text-black/50"
+  data-artwork-stats
+  data-slug={slug}
+>
+  <span class="inline-flex items-center gap-2">
+    <span class="text-base">👁</span>
+    <span data-view-count>{viewCount}</span>
+    <span>{isTH ? "เข้าชม" : "views"}</span>
+  </span>
+
+  <button
+    type="button"
+    class="inline-flex items-center gap-2 transition hover:text-black"
+    data-like-button
+  >
+    <span data-like-icon>♡</span>
+    <span data-like-count>{likeCount}</span>
+    <span>{isTH ? "ถูกใจ" : "likes"}</span>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll("[data-artwork-stats]").forEach((el) => {
+    const slug = el.getAttribute("data-slug");
+    const likeButton = el.querySelector("[data-like-button]");
+    const likeIcon = el.querySelector("[data-like-icon]");
+    const likeCountEl = el.querySelector("[data-like-count]");
+    const viewCountEl = el.querySelector("[data-view-count]");
+
+    const likedKey = `liked:${slug}`;
+    const viewedKey = `viewed:${slug}`;
+
+    if (localStorage.getItem(likedKey) === "true") {
+      likeIcon.textContent = "♥";
+      likeButton?.classList.add("text-black");
+    }
+
+    if (localStorage.getItem(viewedKey) !== "true") {
+      const currentView = Number(viewCountEl?.textContent || 0);
+      if (viewCountEl) viewCountEl.textContent = String(currentView + 1);
+      localStorage.setItem(viewedKey, "true");
+
+      // เปิดตอนเชื่อม backend
+      // fetch(`${import.meta.env.PUBLIC_API_URL}/artworks/${slug}/view`, {
+      //   method: "POST",
+      // });
+    }
+
+    likeButton?.addEventListener("click", async () => {
+      if (localStorage.getItem(likedKey) === "true") return;
+
+      const current = Number(likeCountEl?.textContent || 0);
+      if (likeCountEl) likeCountEl.textContent = String(current + 1);
+
+      likeIcon.textContent = "♥";
+      likeButton.classList.add("text-black");
+      localStorage.setItem(likedKey, "true");
+
+      // เปิดตอนเชื่อม backend
+      // await fetch(`${import.meta.env.PUBLIC_API_URL}/artworks/${slug}/like`, {
+      //   method: "POST",
+      // });
+    });
+  });
+</script>

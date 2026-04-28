@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { wallArtworks } from "../../../data/wallArtworks";
+import ImageCarousel from "../../../components/ImageCarousel.astro";
+import StatsBar from "../../../components/StatsBar.astro";
 
 export function getStaticPaths() {
   return wallArtworks.map((project) => ({
@@ -47,13 +49,19 @@ const relatedProjects = wallArtworks
     </div>
 
     <div class="mt-16 overflow-hidden bg-black/5">
-      <img
-        src={project.image}
-        alt={`${project.title} งานวาดภาพผนังโดย PhanatchaNuch`}
-        class="h-[420px] w-full object-cover md:h-[720px]"
-        loading="eager"
+      <ImageCarousel
+        images={project.images ?? [project.image]}
+        title={`${project.title} wall painting by PhanatchaNuch`}
       />
     </div>
+
+    <StatsBar
+      type="wall-project"
+      slug={project.slug}
+      viewCount={project.viewCount}
+      likeCount={project.likeCount}
+      lang="th"
+    />
   </section>
 
   <section class="mx-auto max-w-7xl px-5 pb-20 md:px-8">

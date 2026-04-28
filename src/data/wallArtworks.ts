@@ -16,6 +16,8 @@ export const wallArtworks = [
       "/images/wall/private-residence-before.jpg",
       "/images/wall/private-residence-after.jpg",
     ],
+    viewCount: 210,
+    likeCount: 46,
     beforeImage: "/images/wall/private-residence-before.jpg",
     afterImage: "/images/wall/private-residence-after.jpg",
     description:

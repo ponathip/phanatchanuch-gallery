@@ -12,10 +12,12 @@ export const artworks = [
       "/images/artworks/silent-breeze-01.jpg",
       "/images/artworks/silent-breeze-02.jpg",
       "/images/artworks/silent-breeze-03.jpg",
-      "/images/artworks/silent-breeze-04.jpg",
-      "/images/artworks/silent-breeze-room-01.jpg",
-      "/images/artworks/silent-breeze-room-02.jpg",
+      // "/images/artworks/silent-breeze-04.jpg",
+      // "/images/artworks/silent-breeze-room-01.jpg",
+      // "/images/artworks/silent-breeze-room-02.jpg",
     ],
+    viewCount: 124,
+    likeCount: 32,
     description:
       "A quiet movement of memory and time, captured in layers of texture and emotion.",
   },
@@ -33,6 +35,8 @@ export const artworks = [
       "/images/artworks/quiet-layer-02.jpg",
       "/images/artworks/quiet-layer-03.jpg",
     ],
+    viewCount: 1124,
+    likeCount: 732,
     description:
       "Layered textures exploring silence, space, and emotional traces.",
   },
@@ -50,6 +54,8 @@ export const artworks = [
       "/images/artworks/memory-field-02.jpg",
       "/images/artworks/memory-field-03.jpg",
     ],
+    viewCount: 9124,
+    likeCount: 432,
     description:
       "A visual field of remembered fragments, gestures, and muted atmosphere.",
   },
