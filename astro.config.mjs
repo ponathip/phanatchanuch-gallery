@@ -8,6 +8,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: "https://phanatchanuch.com",
+  output: "server",
   vite: {
     plugins: [tailwindcss()],
   },

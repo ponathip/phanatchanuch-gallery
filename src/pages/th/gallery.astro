@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { artworks } from "../../data/artworks";
+import { apiData } from "../../lib/api";
+import type { PublicArtwork } from "@/types/artwork";
+
+const artworks = await apiData<PublicArtwork[]>("/public/artworks");
 
 const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper Work"];
 ---
@@ -48,7 +51,12 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
       </div>
     </div>
 
-    <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {artworks.length === 0 && (
+        <p class="mt-10 text-center text-neutral-400">
+          No artworks available
+        </p>
+      )}
       {artworks.map((art, index) => {
         const isTall = index === 1 || index === 5 || index === 6;
         const isWide = index === 3;
@@ -64,7 +72,7 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
           >
             <div class="relative overflow-hidden bg-black/5">
               <img
-                src={art.image}
+                src={art.coverThumbUrl ?? art.coverImageUrl ?? ""}
                 alt={`${art.title} โดย PhanatchaNuch`}
                 class:list={[
                   "w-full object-cover transition duration-700 group-hover:scale-105",
@@ -73,6 +81,12 @@ const categories = ["ทั้งหมด", "Painting", "Mixed Media", "Paper W
                 ]}
                 loading="lazy"
               />
+
+              {art.status === "sold" && (
+                <span class="absolute left-3 top-3 bg-black px-3 py-1 text-xs text-white">
+                  SOLD
+                </span>
+              )}
 
               <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/10"></div>
 

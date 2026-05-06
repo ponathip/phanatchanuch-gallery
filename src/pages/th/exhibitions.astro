@@ -1,15 +1,28 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { exhibitions } from "../../data/exhibitions";
+import { apiData } from "../../lib/api";
 
-const currentExhibition = exhibitions[0];
+type Exhibition = {
+  id: number;
+  slug: string;
+  title: string;
+  year: string | null;
+  type: string | null;
+  venue: string | null;
+  exhibitionDate: string | null;
+  coverImageUrl: string | null;
+  coverThumbUrl: string | null;
+  description: string | null;
+};
+
+const exhibitions = await apiData<Exhibition[]>("/public/exhibitions");
+const featured = exhibitions[0];
 ---
-
 <BaseLayout
   lang="th"
   title="นิทรรศการ | PhanatchaNuch"
   description="ชมนิทรรศการปัจจุบันและนิทรรศการที่ผ่านมาโดย PhanatchaNuch"
-  image={currentExhibition.image}
+  image={featured?.coverImageUrl ?? "/images/exhibitions/exhibition-01.jpg"}
 >
   <section class="mx-auto max-w-7xl px-5 pb-20 pt-32 md:px-8">
     <div class="grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:items-end">
@@ -43,7 +56,7 @@ const currentExhibition = exhibitions[0];
         >
           <div class="flex aspect-[4/3] items-center justify-center bg-black/5">
             <img
-              src={exhibition.image}
+              src={exhibition.coverThumbUrl ?? exhibition.coverImageUrl ?? "/images/placeholder.jpg"}
               alt={`${exhibition.title} นิทรรศการโดย PhanatchaNuch`}
               class="max-h-full max-w-full object-contain transition duration-700 group-hover:scale-105"
               loading={index === 0 ? "eager" : "lazy"}
@@ -70,7 +83,7 @@ const currentExhibition = exhibitions[0];
                 <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">
                   วันที่
                 </p>
-                <p class="mt-2 text-black/70">{exhibition.date}</p>
+                <p class="mt-2 text-black/70">{exhibition.exhibitionDate}</p>
               </div>
 
               <div>

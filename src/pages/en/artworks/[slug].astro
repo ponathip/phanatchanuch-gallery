@@ -1,19 +1,23 @@
 ---
+export const prerender = false;
+
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { artworks } from "../../../data/artworks";
+import { apiData } from "../../../lib/api";
 import ImageCarousel from "../../../components/ImageCarousel.astro";
 import StatsBar from "../../../components/StatsBar.astro";
 
-export function getStaticPaths() {
-  return artworks.map((art) => ({
-    params: { slug: art.slug },
-    props: { art },
-  }));
+const artworkSlug = decodeURIComponent(
+  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? ""
+);
+
+if (!artworkSlug || artworkSlug === "[object Object]") {
+  throw new Error("Invalid artwork slug");
 }
 
-const { art } = Astro.props;
+const art = await apiData(`/public/artworks/${artworkSlug}`);
+const allArtworks = await apiData("/public/artworks");
 
-const relatedWorks = artworks
+const relatedWorks = allArtworks
   .filter((item) => item.slug !== art.slug)
   .slice(0, 3);
 ---
@@ -22,8 +26,9 @@ const relatedWorks = artworks
   lang="en"
   title={`${art.title} | PhanatchaNuch`}
   description={`Explore ${art.title}, an original artwork by PhanatchaNuch.`}
-  image={art.image}
+  image={art.coverImageUrl ?? art.coverThumbUrl}
 >
+
   <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
     <a
       href="/en/gallery"
@@ -35,7 +40,11 @@ const relatedWorks = artworks
     <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
       <div>
         <ImageCarousel
-          images={art.images ?? [art.image]}
+          images={
+            art.images?.length
+              ? art.images.map((img) => img.imageUrl)
+              : [art.coverImageUrl ?? art.coverThumbUrl]
+          }
           title={`${art.title} by PhanatchaNuch`}
         />
       </div>
@@ -54,6 +63,7 @@ const relatedWorks = artworks
             PhanatchaNuch, {art.year}
           </p>
           <StatsBar
+            type="artwork"
             slug={art.slug}
             viewCount={art.viewCount}
             likeCount={art.likeCount}
@@ -102,7 +112,7 @@ const relatedWorks = artworks
 
         <div class="space-y-4 py-8">
           <a
-            href={`/en/contact?artwork=${art.slug}`}
+            href={`/en/contact?type=artwork&artworkId=${art.id}&artwork=${encodeURIComponent(art.title)}`}
             class="flex w-full items-center justify-between bg-black px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
           >
             Inquire About This Work <span>→</span>
@@ -142,7 +152,7 @@ const relatedWorks = artworks
         <a href={`/en/artworks/${item.slug}`} class="group">
           <div class="overflow-hidden bg-black/5">
             <img
-              src={item.image}
+              src={item.coverThumbUrl ?? item.coverImageUrl}
               alt={`${item.title} by PhanatchaNuch`}
               class="aspect-square w-full object-cover transition duration-700 group-hover:scale-[1.03]"
               loading="lazy"
@@ -158,3 +168,13 @@ const relatedWorks = artworks
     </div>
   </section>
 </BaseLayout>
+
+<script define:vars={{ apiUrl: import.meta.env.PUBLIC_API_URL }}>
+  const slug = location.pathname.split("/").filter(Boolean).at(-1);
+
+  if (slug) {
+    fetch(`${apiUrl}/public/artworks/${slug}/view`, {
+      method: "POST",
+    }).catch(console.error);
+  }
+</script>

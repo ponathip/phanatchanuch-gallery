@@ -1,28 +1,32 @@
 ---
+export const prerender = false;
+
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { wallArtworks } from "../../../data/wallArtworks";
+import { apiData } from "../../../lib/api";
 import ImageCarousel from "../../../components/ImageCarousel.astro";
 import StatsBar from "../../../components/StatsBar.astro";
 
-export function getStaticPaths() {
-  return wallArtworks.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
-}
+const slug = decodeURIComponent(
+  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? ""
+);
 
-const { project } = Astro.props;
+const project = await apiData(`/public/wall-projects/${slug}`);
+const allProjects = await apiData("/public/wall-projects");
 
-const relatedProjects = wallArtworks
+const relatedProjects = allProjects
   .filter((item) => item.slug !== project.slug)
   .slice(0, 3);
+
+const carouselImages = project.images?.length
+  ? project.images.map((img) => img.imageUrl)
+  : [project.coverImageUrl].filter(Boolean);
 ---
 
 <BaseLayout
   lang="en"
   title={`${project.title} | Wall Painting | PhanatchaNuch`}
   description={project.description}
-  image={project.image}
+  image={project.coverImageUrl}
 >
   <section class="mx-auto max-w-7xl px-5 pb-20 pt-32 md:px-8">
     <a
@@ -50,7 +54,7 @@ const relatedProjects = wallArtworks
 
     <div class="mt-16 overflow-hidden bg-black/5">
       <ImageCarousel
-        images={project.images ?? [project.image]}
+        images={carouselImages}
         title={`${project.title} wall painting by PhanatchaNuch`}
       />
     </div>
@@ -60,7 +64,7 @@ const relatedProjects = wallArtworks
       slug={project.slug}
       viewCount={project.viewCount}
       likeCount={project.likeCount}
-      lang="th"
+      lang="en"
     />
   </section>
   
@@ -84,7 +88,7 @@ const relatedProjects = wallArtworks
         <p class="text-xs uppercase tracking-[0.22em] text-black/40">
           Space
         </p>
-        <p class="mt-3 text-sm text-black/70">{project.category}</p>
+        <p class="mt-3 text-sm text-black/70">{project.spaceType}</p>
       </div>
 
       <div>
@@ -137,7 +141,7 @@ const relatedProjects = wallArtworks
     <div class="grid overflow-hidden border border-black/10 md:grid-cols-2">
       <div class="relative bg-black/5">
         <img
-          src={project.beforeImage}
+          src={project.beforeImageUrl}
           alt={`${project.title} before wall painting`}
           class="aspect-[4/3] w-full object-cover"
           loading="lazy"
@@ -150,7 +154,7 @@ const relatedProjects = wallArtworks
 
       <div class="relative bg-black/5">
         <img
-          src={project.afterImage}
+          src={project.afterImageUrl}
           alt={`${project.title} after wall painting by PhanatchaNuch`}
           class="aspect-[4/3] w-full object-cover"
           loading="lazy"
@@ -189,7 +193,7 @@ const relatedProjects = wallArtworks
           <a href={`/en/wall-painting/${item.slug}`} class="group">
             <div class="overflow-hidden bg-black/5">
               <img
-                src={item.image}
+                src={item.coverThumbUrl ?? item.coverImageUrl}
                 alt={`${item.title} wall painting by PhanatchaNuch`}
                 class="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-105"
                 loading="lazy"
@@ -224,7 +228,7 @@ const relatedProjects = wallArtworks
       </div>
 
       <a
-        href={`/en/contact?type=wall-painting&project=${project.slug}`}
+        href={`/en/contact?type=wall_painting&project=${encodeURIComponent(project.title)}`}
         class="inline-flex items-center justify-between bg-black px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
       >
         Discuss a Project <span class="ml-8">→</span>
@@ -232,3 +236,13 @@ const relatedProjects = wallArtworks
     </div>
   </section>
 </BaseLayout>
+
+<script define:vars={{ apiUrl: import.meta.env.PUBLIC_API_URL }}>
+  const slug = location.pathname.split("/").filter(Boolean).at(-1);
+
+  if (slug) {
+    fetch(`${apiUrl}/public/wall-projects/${slug}/view`, {
+      method: "POST",
+    }).catch(console.error);
+  }
+</script>

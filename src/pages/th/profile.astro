@@ -1,36 +1,42 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { artworks } from "../../data/artworks";
+import { apiData } from "../../lib/api";
+
+const settings = await apiData("/public/settings");
+const artworks = await apiData("/public/artworks");
+const exhibitions = await apiData("/public/exhibitions");
+
+const featuredArtworks = artworks.slice(0, 3);
+const selectedExhibitions = exhibitions.slice(0, 3);
 ---
 
 <BaseLayout
   lang="th"
   title="เกี่ยวกับ PhanatchaNuch | โปรไฟล์ศิลปิน"
   description="เรียนรู้เพิ่มเติมเกี่ยวกับ PhanatchaNuch ศิลปินร่วมสมัยที่สำรวจความทรงจำ พื้นผิว และอารมณ์ผ่านผลงานนามธรรม"
-  image="/images/profile/artist.jpg"
+  image={settings.profileImageUrl ?? settings.defaultOgImage}
 >
   <section class="mx-auto grid max-w-7xl gap-12 px-5 pb-24 pt-32 md:grid-cols-[0.95fr_1.05fr] md:px-8">
     <div>
       <img
-        src="/images/profile/artist.jpg"
+        src={settings.profileImageUrl ?? "/images/profile/artist.jpg"}
         alt="ภาพศิลปิน PhanatchaNuch"
-        class="h-[560px] w-full object-cover grayscale md:h-[760px]"
+        class="h-[560px] w-full object-cover md:h-[760px]"
         loading="eager"
       />
     </div>
 
     <div class="flex flex-col justify-center">
       <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
-        Artist Profile
+        {settings.aboutTitleTh ?? "PhanatchaNuch"}
       </p>
 
       <h1 class="serif max-w-full break-words leading-[0.95] text-[36px] sm:text-5xl md:text-7xl">
-        พนัชกร เพชรนาค
+        {settings.bioTh}
       </h1>
 
       <p class="mt-8 max-w-xl text-lg leading-9 text-black/65">
-        ศิลปินร่วมสมัยที่สำรวจความทรงจำ พื้นผิว ความเงียบ
-        และชั้นอารมณ์ที่มองไม่เห็น ผ่านภาษาภาพแบบนามธรรม
+        {settings.artistStatementTh}
       </p>
 
       <div class="mt-12 grid gap-6 border-y border-black/10 py-8 sm:grid-cols-3">
@@ -120,10 +126,10 @@ import { artworks } from "../../data/artworks";
 
   <section class="mx-auto max-w-7xl px-5 pb-24 md:px-8">
     <div class="grid gap-6 md:grid-cols-3">
-      {artworks.slice(0, 3).map((art, index) => (
+      {featuredArtworks.map((art, index) => (
         <img
-          src={art.image}
-          alt={`${art.title} โดย PhanatchaNuch`}
+          src={art.coverThumbUrl ?? art.coverImageUrl}
+          alt={art.title}
           class:list={[
             "w-full object-cover",
             index === 1 ? "h-[560px] md:mt-20" : "h-[460px]",
@@ -147,19 +153,16 @@ import { artworks } from "../../data/artworks";
       </div>
 
       <div class="space-y-6">
-        {[
-          ["2026", "Echoes in Between", "Solo Presentation, Bangkok"],
-          ["2025", "Traces of Silence", "Group Exhibition, Bangkok"],
-          ["2024", "Layers of Being", "Independent Presentation"],
-        ].map(([year, title, detail]) => (
+        {selectedExhibitions.map((item) => (
           <div class="grid gap-3 border-b border-black/10 pb-6 sm:grid-cols-[100px_1fr]">
             <p class="text-xs uppercase tracking-[0.2em] text-black/40">
-              {year}
+              {item.year}
             </p>
-
             <div>
-              <h3 class="serif text-2xl">{title}</h3>
-              <p class="mt-2 text-sm text-black/55">{detail}</p>
+              <h3 class="serif text-2xl">{item.title}</h3>
+              <p class="mt-2 text-sm text-black/55">
+                {item.type} · {item.venue}
+              </p>
             </div>
           </div>
         ))}

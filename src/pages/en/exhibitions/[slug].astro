@@ -1,28 +1,28 @@
 ---
+export const prerender = false;
+
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ImageCarousel from "../../../components/ImageCarousel.astro";
-import { exhibitions } from "../../../data/exhibitions";
-import { artworks } from "../../../data/artworks";
+import { apiData } from "../../../lib/api";
 
-export function getStaticPaths() {
-  return exhibitions.map((exhibition) => ({
-    params: { slug: exhibition.slug },
-    props: { exhibition },
-  }));
-}
-
-const { exhibition } = Astro.props;
-
-const exhibitionWorks = artworks.filter((art) =>
-  exhibition.artworkSlugs.includes(art.slug)
+const slug = decodeURIComponent(
+  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? ""
 );
+
+const exhibition = await apiData(`/public/exhibitions/${slug}`);
+
+const images = exhibition.images?.length
+  ? exhibition.images.map((img) => img.imageUrl)
+  : [exhibition.coverImageUrl].filter(Boolean);
+
+const exhibitionWorks = exhibition.artworks ?? [];
 ---
 
 <BaseLayout
   lang="en"
   title={`${exhibition.title} | Exhibition | PhanatchaNuch`}
   description={exhibition.description}
-  image={exhibition.image}
+  image={exhibition.coverImageUrl}
 >
   <section class="mx-auto max-w-7xl px-5 pb-20 pt-32 md:px-8">
     <a
@@ -50,7 +50,7 @@ const exhibitionWorks = artworks.filter((art) =>
 
     <div class="mt-16">
       <ImageCarousel
-        images={exhibition.images ?? [exhibition.image]}
+        images={images}
         title={`${exhibition.title} exhibition by PhanatchaNuch`}
       />
     </div>
@@ -60,7 +60,7 @@ const exhibitionWorks = artworks.filter((art) =>
     <div class="grid gap-6 border-y border-black/10 py-8 sm:grid-cols-2 lg:grid-cols-4">
       <div>
         <p class="text-xs uppercase tracking-[0.22em] text-black/40">Dates</p>
-        <p class="mt-3 text-sm text-black/70">{exhibition.date}</p>
+        <p class="mt-3 text-sm text-black/70">{exhibition.exhibitionDate}</p>
       </div>
 
       <div>
@@ -125,7 +125,7 @@ const exhibitionWorks = artworks.filter((art) =>
         <a href={`/en/artworks/${art.slug}`} class="group">
           <div class="relative overflow-hidden bg-black/5">
             <img
-              src={art.image}
+              src={art.coverImageUrl}
               alt={`${art.title} by PhanatchaNuch`}
               class:list={[
                 "w-full object-cover transition duration-700 group-hover:scale-105",
@@ -175,7 +175,7 @@ const exhibitionWorks = artworks.filter((art) =>
       </div>
 
       <a
-        href={`/en/contact?type=exhibition&exhibition=${exhibition.slug}`}
+        href={`/en/contact?type=exhibition&exhibition=${encodeURIComponent(exhibition.title)}`}
         class="inline-flex bg-black px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
       >
         Contact →

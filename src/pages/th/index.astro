@@ -1,18 +1,23 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { artworks } from "../../data/artworks";
-import { wallArtworks } from "../../data/wallArtworks";
+import { apiData } from "../../lib/api";
+
+const settings = await apiData("/public/settings");
+const artworks = await apiData("/public/artworks");
+const wallProjects = await apiData("/public/wall-projects");
+const exhibitions = await apiData("/public/exhibitions");
 
 const selectedWorks = artworks.slice(0, 6);
 const heroWork = artworks[0];
-const featuredWall = wallArtworks[0];
+const featuredWall = wallProjects[0];
+const currentExhibition = exhibitions[0];
 ---
 
 <BaseLayout
   lang="th"
-  title="PhanatchaNuch | ศิลปินร่วมสมัยและแกลเลอรีส่วนตัว"
-  description="สำรวจผลงานศิลปะ นิทรรศการ งานวาดภาพผนัง และโลกสร้างสรรค์ของ PhanatchaNuch"
-  image={heroWork.image}
+  title={settings.defaultTitle}
+  description={settings.defaultDescription}
+  image={heroWork?.coverImageUrl ?? settings.defaultOgImage}
 >
   <!-- HERO -->
   <section class="mx-auto grid min-h-screen max-w-7xl gap-12 px-5 pt-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-center md:px-8">
@@ -52,7 +57,7 @@ const featuredWall = wallArtworks[0];
     <div class="order-1 md:order-2">
       <div class="relative">
         <img
-          src={heroWork.image}
+          src={heroWork?.coverImageUrl}
           alt={`${heroWork.title} โดย PhanatchaNuch`}
           class="image-soft h-[520px] w-full object-cover md:h-[720px]"
           loading="eager"
@@ -61,7 +66,7 @@ const featuredWall = wallArtworks[0];
         <div class="absolute bottom-0 left-0 max-w-xs bg-[#f7f7f4]/90 p-5 backdrop-blur">
           <p class="serif text-xl">{heroWork.title}</p>
           <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
-            {heroWork.year} · {heroWork.category}
+            {heroWork?.year} · {heroWork?.category}
           </p>
         </div>
       </div>
@@ -95,7 +100,7 @@ const featuredWall = wallArtworks[0];
           <a href={`/th/artworks/${art.slug}`} class="group">
             <div class="relative overflow-hidden bg-black/5">
               <img
-                src={art.image}
+                src={art.coverThumbUrl ?? art.coverImageUrl}
                 alt={`${art.title} โดย PhanatchaNuch`}
                 class:list={[
                   "w-full object-cover transition duration-700 group-hover:scale-105",
@@ -166,10 +171,10 @@ const featuredWall = wallArtworks[0];
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        {artworks.slice(0, 2).map((art) => (
+        {wallProjects.slice(0, 2).map((item) => (
           <img
-            src={art.image}
-            alt={`${art.title} by PhanatchaNuch`}
+            src={item.coverThumbUrl ?? item.coverImageUrl}
+            alt={`${item.title} by PhanatchaNuch`}
             class="mt-16 h-[460px] w-full object-cover"
             loading="lazy"
           />
@@ -187,12 +192,12 @@ const featuredWall = wallArtworks[0];
         </p>
 
         <h2 class="serif text-5xl leading-tight md:text-7xl">
-          Echoes in Between
+          {currentExhibition?.title}
         </h2>
 
         <p class="mt-8 text-xs uppercase leading-7 tracking-[0.18em] text-white/65">
-          12 May – 30 June 2026<br />
-          Bangkok, Thailand
+          {currentExhibition?.exhibitionDate}<br />
+          {currentExhibition?.venue}
         </p>
 
         <a
@@ -205,7 +210,7 @@ const featuredWall = wallArtworks[0];
 
       <div class="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
         <img
-          src="/images/exhibitions/exhibition-01.jpg"
+          src={currentExhibition?.coverImageUrl}
           alt="นิทรรศการ Echoes in Between"
           class="h-[520px] w-full object-cover opacity-85"
           loading="lazy"
@@ -232,14 +237,14 @@ const featuredWall = wallArtworks[0];
     <div class="grid gap-10 md:grid-cols-[1fr_1fr] md:items-center">
       <div class="grid grid-cols-2 gap-4">
         <img
-          src="/images/profile/artist.jpg"
+          src={settings.profileImageUrl}
           alt="ภาพศิลปิน PhanatchaNuch"
           class="h-[460px] w-full object-cover grayscale"
           loading="lazy"
         />
 
         <img
-          src={artworks[0].image}
+          src={settings.defaultOgImage}
           alt="รายละเอียดผลงานโดย PhanatchaNuch"
           class="mt-16 h-[460px] w-full object-cover"
           loading="lazy"
@@ -248,7 +253,7 @@ const featuredWall = wallArtworks[0];
 
       <div class="md:pl-12">
         <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
-          Artist Profile
+          {settings.bioTh}
         </p>
 
         <h2 class="serif text-5xl leading-tight md:text-7xl">
@@ -278,7 +283,7 @@ const featuredWall = wallArtworks[0];
           Artwork Inquiry
         </p>
 
-        <h2 class="serif max-w-2xl text-5xl leading-tight md:text-7xl">
+        <h2 class="serif max-w-2xl text-5xl leading-tight md:text-6xl">
           สนใจผลงานหรือโปรเจกต์?
         </h2>
 

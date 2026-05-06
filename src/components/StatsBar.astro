@@ -1,6 +1,7 @@
 ---
 const {
   slug,
+  type = "artwork",
   viewCount = 0,
   likeCount = 0,
   lang = "en",
@@ -13,6 +14,7 @@ const isTH = lang === "th";
   class="flex items-center gap-6 border-b border-black/10 py-6 text-sm text-black/50"
   data-artwork-stats
   data-slug={slug}
+  data-type={type}
 >
   <span class="inline-flex items-center gap-2">
     <span class="text-base">👁</span>
@@ -30,14 +32,16 @@ const isTH = lang === "th";
     <span>{isTH ? "ถูกใจ" : "likes"}</span>
   </button>
 </div>
-
-<script>
+<script define:vars={{ apiUrl: import.meta.env.PUBLIC_API_URL }}>
+  
   document.querySelectorAll("[data-artwork-stats]").forEach((el) => {
     const slug = el.getAttribute("data-slug");
     const likeButton = el.querySelector("[data-like-button]");
     const likeIcon = el.querySelector("[data-like-icon]");
     const likeCountEl = el.querySelector("[data-like-count]");
     const viewCountEl = el.querySelector("[data-view-count]");
+    const type = el.getAttribute("data-type") || "artwork";
+    if (!slug) return;
 
     const likedKey = `liked:${slug}`;
     const viewedKey = `viewed:${slug}`;
@@ -46,32 +50,46 @@ const isTH = lang === "th";
       likeIcon.textContent = "♥";
       likeButton?.classList.add("text-black");
     }
+    const endpoint =
+    type === "wall-project"
+      ? "wall-projects"
+      : "artworks";
 
     if (localStorage.getItem(viewedKey) !== "true") {
-      const currentView = Number(viewCountEl?.textContent || 0);
-      if (viewCountEl) viewCountEl.textContent = String(currentView + 1);
       localStorage.setItem(viewedKey, "true");
 
-      // เปิดตอนเชื่อม backend
-      // fetch(`${import.meta.env.PUBLIC_API_URL}/artworks/${slug}/view`, {
-      //   method: "POST",
-      // });
+      fetch(`${apiUrl}/public/${endpoint}/${slug}/view`, {
+        method: "POST",
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          if (viewCountEl && json.data?.viewCount !== undefined) {
+            viewCountEl.textContent = String(json.data.viewCount);
+          }
+        })
+        .catch(console.error);
     }
 
     likeButton?.addEventListener("click", async () => {
       if (localStorage.getItem(likedKey) === "true") return;
 
-      const current = Number(likeCountEl?.textContent || 0);
-      if (likeCountEl) likeCountEl.textContent = String(current + 1);
-
+      localStorage.setItem(likedKey, "true");
       likeIcon.textContent = "♥";
       likeButton.classList.add("text-black");
-      localStorage.setItem(likedKey, "true");
 
-      // เปิดตอนเชื่อม backend
-      // await fetch(`${import.meta.env.PUBLIC_API_URL}/artworks/${slug}/like`, {
-      //   method: "POST",
-      // });
+      try {
+        const res = await fetch(`${apiUrl}/public/${endpoint}/${slug}/like`, {
+          method: "POST",
+        });
+
+        const json = await res.json();
+
+        if (likeCountEl && json.data?.likeCount !== undefined) {
+          likeCountEl.textContent = String(json.data.likeCount);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     });
   });
 </script>

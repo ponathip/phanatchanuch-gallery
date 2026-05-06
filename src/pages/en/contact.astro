@@ -82,7 +82,7 @@ import { site } from "../../data/site";
           </label>
           <select
             class="mt-3 w-full border-b border-black/30 bg-transparent py-4 text-sm outline-none transition focus:border-black"
-            name="type"
+            name="inquiryType"
           >
             <option value="artwork">Artwork inquiry</option>
             <option value="wall-painting">Wall painting project</option>
@@ -125,41 +125,109 @@ import { site } from "../../data/site";
     </div>
   </section>
 
-  <script>
-    const form = document.getElementById("contactForm");
-    const message = document.getElementById("formMessage");
+ <script define:vars={{ apiUrl: import.meta.env.PUBLIC_API_URL }}>
+  const form = document.getElementById("contactForm");
+  const messageBox = document.getElementById("formMessage");
 
-    const params = new URLSearchParams(window.location.search);
-    const type = params.get("type");
-    const artwork = params.get("artwork");
-    const project = params.get("project");
+  const params = new URLSearchParams(window.location.search);
 
-    const typeSelect = form?.querySelector("select[name='type']");
-    const messageInput = form?.querySelector("textarea[name='message']");
+  const type = params.get("type");
+  const artworkId = params.get("artworkId");
+  const artwork = params.get("artwork");
+  const project = params.get("project");
 
-    if (typeSelect instanceof HTMLSelectElement && type) {
-      typeSelect.value = type;
+  const typeSelect = form?.querySelector("select[name='inquiryType']");
+  const messageInput = form?.querySelector("textarea[name='message']");
+  const submitButton = form?.querySelector("button[type='submit']");
+
+  if (typeSelect instanceof HTMLSelectElement && type) {
+    typeSelect.value = type;
+  }
+
+  if (messageInput instanceof HTMLTextAreaElement) {
+    if (type === "artwork" && artwork) {
+      messageInput.value = `Hello, I am interested in the artwork: ${artwork}. Please share more details.`;
     }
 
-    if (messageInput instanceof HTMLTextAreaElement) {
-      if (artwork) {
-        messageInput.value = `Hello, I am interested in the artwork: ${artwork}. Please share more details.`;
-      }
-
-      if (project) {
-        messageInput.value = `Hello, I am interested in a wall painting project related to: ${project}. Please share more details.`;
-      }
-
-      if (type === "wall-painting" && !project) {
-        messageInput.value =
-          "Hello, I am interested in a custom wall painting project. I would like to discuss my space, idea, and timeline.";
-      }
+    if (type === "wall_painting") {
+      messageInput.value =
+        "Hello, I am interested in a custom wall painting project. I would like to discuss my space, idea, and timeline.";
     }
 
-    form?.addEventListener("submit", (event) => {
-      event.preventDefault();
+    if (type === "collaboration") {
+      messageInput.value =
+        "Hello, I am interested in a collaboration. Please share more details.";
+    }
+
+    if (type === "exhibition") {
+      messageInput.value =
+        "Hello, I am interested in exhibition opportunities. Please share more details.";
+    }
+
+    if (type === "private_viewing") {
+      messageInput.value =
+        "Hello, I am interested in a private viewing. Please share more details.";
+    }
+
+    if (project) {
+      messageInput.value = `Hello, I am interested in a wall painting project related to: ${project}. Please share more details.`;
+    }
+  }
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const formData = new FormData(form);
+
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      inquiryType: formData.get("inquiryType"),
+      artworkId: artworkId ? Number(artworkId) : null,
+      message: formData.get("message"),
+    };
+
+    try {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
+
+      const res = await fetch(`${apiUrl}/public/inquiries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to send inquiry");
+      }
+
       form.reset();
-      message?.classList.remove("hidden");
-    });
-  </script>
+
+      if (messageBox) {
+        messageBox.classList.remove("hidden");
+        messageBox.textContent =
+          "Message sent successfully. Thank you for your inquiry.";
+      }
+    } catch (error) {
+      console.error(error);
+
+      if (messageBox) {
+        messageBox.classList.remove("hidden");
+        messageBox.textContent =
+          "Message could not be sent. Please try again.";
+      }
+    } finally {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = `Send Message <span>→</span>`;
+      }
+    }
+  });
+</script>
 </BaseLayout>

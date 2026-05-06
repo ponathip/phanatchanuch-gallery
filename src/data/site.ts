@@ -17,6 +17,7 @@ export const nav = {
     { label: "Wall Painting", href: "/en/wall-painting" },
     { label: "Exhibitions", href: "/en/exhibitions" },
     { label: "Profile", href: "/en/profile" },
+    // { label: "About", href: "/en/about" },
     { label: "Contact", href: "/en/contact" },
   ],
   th: [
@@ -25,6 +26,7 @@ export const nav = {
     { label: "งานวาดภาพผนัง", href: "/th/wall-painting" },
     { label: "นิทรรศการ", href: "/th/exhibitions" },
     { label: "โปรไฟล์", href: "/th/profile" },
+    // { label: "โปรไฟล์", href: "/th/about" },
     { label: "ติดต่อ", href: "/th/contact" },
   ],
 };

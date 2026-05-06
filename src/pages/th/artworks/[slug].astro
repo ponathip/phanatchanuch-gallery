@@ -1,22 +1,27 @@
 ---
+export const prerender = false;
+
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { artworks } from "../../../data/artworks";
+import { apiData } from "../../../lib/api";
 import ImageCarousel from "../../../components/ImageCarousel.astro";
 import StatsBar from "../../../components/StatsBar.astro";
 
-export function getStaticPaths() {
-  return artworks.map((art) => ({
-    params: { slug: art.slug },
-    props: { art },
-  }));
+const artworkSlug = decodeURIComponent(
+  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? ""
+);
+
+if (!artworkSlug || artworkSlug === "[object Object]") {
+  throw new Error("Invalid artwork slug");
 }
 
-const { art } = Astro.props;
+const art = await apiData(`/public/artworks/${artworkSlug}`);
+const allArtworks = await apiData("/public/artworks");
 
-const relatedWorks = artworks
+const relatedWorks = allArtworks
   .filter((item) => item.slug !== art.slug)
   .slice(0, 3);
 ---
+
 
 <BaseLayout
   lang="th"
@@ -35,8 +40,12 @@ const relatedWorks = artworks
     <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
       <div>
         <ImageCarousel
-          images={art.images ?? [art.image]}
-          title={`${art.title} โดย PhanatchaNuch`}
+          images={
+            art.images?.length
+              ? art.images.map((img) => img.imageUrl)
+              : [art.coverImageUrl ?? art.coverThumbUrl]
+          }
+          title={`${art.title} by PhanatchaNuch`}
         />
       </div>
 
@@ -54,6 +63,7 @@ const relatedWorks = artworks
             PhanatchaNuch, {art.year}
           </p>
           <StatsBar
+            type="artwork"
             lang="th"
             slug={art.slug}
             viewCount={art.viewCount}
@@ -103,7 +113,7 @@ const relatedWorks = artworks
 
         <div class="space-y-4 py-8">
           <a
-            href={`/th/contact?artwork=${art.slug}`}
+            href={`/th/contact?type=artwork&artworkId=${art.id}&artwork=${encodeURIComponent(art.title)}`}
             class="flex w-full items-center justify-between bg-black px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
           >
             สอบถามผลงานนี้ <span>→</span>
@@ -146,7 +156,7 @@ const relatedWorks = artworks
         <a href={`/th/artworks/${item.slug}`} class="group">
           <div class="overflow-hidden bg-black/5">
             <img
-              src={item.image}
+              src={item.coverThumbUrl}
               alt={`${item.title} โดย PhanatchaNuch`}
               class="aspect-square w-full object-cover transition duration-700 group-hover:scale-[1.03]"
               loading="lazy"
@@ -162,3 +172,13 @@ const relatedWorks = artworks
     </div>
   </section>
 </BaseLayout>
+
+<script define:vars={{ apiUrl: import.meta.env.PUBLIC_API_URL }}>
+  const slug = location.pathname.split("/").filter(Boolean).at(-1);
+
+  if (slug) {
+    fetch(`${apiUrl}/public/artworks/${slug}/view`, {
+      method: "POST",
+    }).catch(console.error);
+  }
+</script>

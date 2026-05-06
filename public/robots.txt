@@ -1,10 +1,4 @@
-{
-  "name": "PhanatchaNuch",
-  "short_name": "PhanatchaNuch",
-  "description": "Contemporary art and personal gallery by PhanatchaNuch",
-  "start_url": "/en",
-  "display": "standalone",
-  "background_color": "#f7f7f4",
-  "theme_color": "#000000",
-  "icons": []
-}
+User-agent: *
+Allow: /
+
+Sitemap: https://phanatchanuch.com/sitemap-index.xml

@@ -3,6 +3,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { site } from "../data/site";
 import "../styles/global.css";
+import { apiData } from "../lib/api";
 
 interface Props {
   title: string;
@@ -17,6 +18,29 @@ const {
   lang = "en",
   image = "/images/og.jpg",
 } = Astro.props;
+
+let settings = {};
+
+try {
+  settings = await apiData("/public/settings");
+} catch (_) {
+  settings = {};
+}
+
+const siteName = settings.siteName ?? "PhanatchaNuch";
+const finalTitle = title ?? settings.defaultTitle ?? siteName;
+const finalDescription =
+  description ??
+  settings.defaultDescription ??
+  "Original artworks, wall painting, and exhibitions by PhanatchaNuch.";
+
+const finalImage =
+  image ??
+  settings.defaultOgImage ??
+  settings.profileImageUrl ??
+  "/images/og-default.jpg";
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
 ---
 
 <!doctype html>
@@ -30,15 +54,15 @@ const {
     <meta name="google" content="notranslate" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, site.url)} />
+    <title>{finalTitle}</title>
+    <meta name="description" content={finalDescription} />
+    <link rel="canonical" href={canonicalUrl} />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, site.url)} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, site.url)} />
+    <meta property="og:title" content={finalTitle} />
+    <meta property="og:description" content={finalDescription} />
+    <meta property="og:image" content={finalImage} />
+    <meta property="og:url" content={canonicalUrl} />
 
     <meta name="twitter:card" content="summary_large_image" />
 
