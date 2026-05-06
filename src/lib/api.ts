@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.PUBLIC_API_URL;
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "http://host.docker.internal:3011";
 
 export async function apiFetch<T = any>(path: string): Promise<T> {
   const res = await fetch(`${API_URL}${path}`);
