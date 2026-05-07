@@ -7,7 +7,7 @@ import ImageCarousel from "../../../components/ImageCarousel.astro";
 import StatsBar from "../../../components/StatsBar.astro";
 
 const artworkSlug = decodeURIComponent(
-  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? ""
+  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? "",
 );
 
 if (!artworkSlug || artworkSlug === "[object Object]") {
@@ -28,8 +28,9 @@ const relatedWorks = allArtworks
   description={`Explore ${art.title}, an original artwork by PhanatchaNuch.`}
   image={art.coverImageUrl ?? art.coverThumbUrl}
 >
-
-  <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
+  <section
+    class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8"
+  >
     <a
       href="/en/gallery"
       class="mb-10 inline-flex text-xs uppercase tracking-[0.22em] text-black/50 hover:text-black"
@@ -40,11 +41,9 @@ const relatedWorks = allArtworks
     <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
       <div>
         <ImageCarousel
-          images={
-            art.images?.length
-              ? art.images.map((img) => img.imageUrl)
-              : [art.coverImageUrl ?? art.coverThumbUrl]
-          }
+          images={art.images?.length
+            ? art.images.map((img) => img.imageUrl)
+            : [art.coverImageUrl ?? art.coverThumbUrl]}
           title={`${art.title} by PhanatchaNuch`}
         />
       </div>
@@ -62,15 +61,18 @@ const relatedWorks = allArtworks
           <p class="mt-6 text-sm uppercase tracking-[0.18em] text-black/45">
             PhanatchaNuch, {art.year}
           </p>
-          <StatsBar
-            type="artwork"
-            slug={art.slug}
-            viewCount={art.viewCount}
-            likeCount={art.likeCount}
-          />
         </div>
 
-        <div class="grid grid-cols-2 gap-x-8 gap-y-6 border-b border-black/10 py-8 text-sm">
+        <StatsBar
+          type="artwork"
+          slug={art.slug}
+          viewCount={art.viewCount}
+          likeCount={art.likeCount}
+        />
+
+        <div
+          class="grid grid-cols-2 gap-x-8 gap-y-6 border-b border-black/10 py-8 text-sm"
+        >
           <div>
             <p class="text-[11px] uppercase tracking-[0.2em] text-black/40">
               Medium
@@ -126,14 +128,17 @@ const relatedWorks = allArtworks
           </a>
 
           <p class="pt-3 text-xs leading-6 text-black/45">
-            Prices are not displayed online. All inquiries are handled personally.
+            Prices are not displayed online. All inquiries are handled
+            personally.
           </p>
         </div>
       </aside>
     </div>
   </section>
 
-  <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
+  <section
+    class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8"
+  >
     <div class="mb-10 flex items-end justify-between gap-6">
       <div>
         <p class="mb-4 text-xs uppercase tracking-[0.22em] text-black/45">
@@ -142,29 +147,34 @@ const relatedWorks = allArtworks
         <h2 class="serif text-4xl md:text-5xl">Related Works</h2>
       </div>
 
-      <a href="/en/gallery" class="hidden text-xs uppercase tracking-[0.2em] md:block">
+      <a
+        href="/en/gallery"
+        class="hidden text-xs uppercase tracking-[0.2em] md:block"
+      >
         View All →
       </a>
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-      {relatedWorks.map((item) => (
-        <a href={`/en/artworks/${item.slug}`} class="group">
-          <div class="overflow-hidden bg-black/5">
-            <img
-              src={item.coverThumbUrl ?? item.coverImageUrl}
-              alt={`${item.title} by PhanatchaNuch`}
-              class="aspect-square w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-              loading="lazy"
-            />
-          </div>
+      {
+        relatedWorks.map((item) => (
+          <a href={`/en/artworks/${item.slug}`} class="group">
+            <div class="overflow-hidden bg-black/5">
+              <img
+                src={item.coverThumbUrl ?? item.coverImageUrl}
+                alt={`${item.title} by PhanatchaNuch`}
+                class="aspect-square w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </div>
 
-          <h3 class="serif mt-4 text-2xl">{item.title}</h3>
-          <p class="mt-1 text-sm text-black/50">
-            {item.year} · {item.category}
-          </p>
-        </a>
-      ))}
+            <h3 class="serif mt-4 text-2xl">{item.title}</h3>
+            <p class="mt-1 text-sm text-black/50">
+              {item.year} · {item.category}
+            </p>
+          </a>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>
