@@ -41,65 +41,67 @@ const safeImages = images.length ? images : [];
   </div>
 
   <div class="mt-5 flex gap-3 overflow-x-auto pb-2">
-    {safeImages.map((image, index) => (
-      <button
-        type="button"
-        data-carousel-thumb
-        data-index={index}
-        class:list={[
-          "h-24 w-24 shrink-0 overflow-hidden border bg-black/5 md:h-32 md:w-32",
-          index === 0 ? "border-black" : "border-transparent",
-        ]}
-      >
-        <img
-          src={image}
-          alt={`${title} ${index + 1}`}
-          class="h-full w-full object-cover"
-          loading="lazy"
-        />
-      </button>
-    ))}
+    {
+      safeImages.map((image, index) => (
+        <button
+          type="button"
+          data-carousel-thumb
+          data-index={index}
+          class:list={[
+            "h-24 w-24 shrink-0 overflow-hidden border bg-black/5 md:h-32 md:w-32",
+            index === 0 ? "border-black" : "border-transparent",
+          ]}
+        >
+          <img
+            src={image}
+            alt={`${title} ${index + 1}`}
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </button>
+      ))
+    }
   </div>
 
   <div class="mt-4 flex items-center justify-center gap-2">
-    {safeImages.map((_, index) => (
-      <span
-        data-carousel-dot
-        data-index={index}
-        class:list={[
-          "h-1.5 w-1.5 rounded-full",
-          index === 0 ? "bg-black" : "bg-black/20",
-        ]}
-      ></span>
-    ))}
+    {
+      safeImages.map((_, index) => (
+        <span
+          data-carousel-dot
+          data-index={index}
+          class:list={[
+            "h-1.5 w-1.5 rounded-full",
+            index === 0 ? "bg-black" : "bg-black/20",
+          ]}
+        />
+      ))
+    }
   </div>
 
   <p class="mt-4 text-center text-xs uppercase tracking-[0.18em] text-black/45">
     <span data-carousel-count>1</span> / {safeImages.length}
   </p>
 
-  <div
+<div
   data-lightbox
-  class="fixed inset-0 z-[100] hidden bg-black/95 px-4 py-10"
+  class="fixed inset-0 z-[2147483647] hidden bg-black/95 px-4 py-10"
 >
-  <div class="flex h-full w-full items-center justify-center">
-    <div class="relative w-fit max-w-[92vw]">
-      <button
-        type="button"
-        data-lightbox-close
-        class="absolute -right-4 -top-4 z-[120] flex h-10 w-10 items-center justify-center rounded-full bg-white text-3xl leading-none text-black shadow-lg transition hover:bg-neutral-200"
-        aria-label="Close image viewer"
-      >
-        ×
-      </button>
+  <button
+    type="button"
+    data-lightbox-close
+    class="fixed right-6 top-6 z-[2147483647] flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl leading-none text-black shadow-lg"
+    aria-label="Close image viewer"
+  >
+    ×
+  </button>
 
-      <img
-        data-lightbox-image
-        src={safeImages[0]}
-        alt={title}
-        class="max-h-[85vh] max-w-[92vw] object-contain"
-      />
-    </div>
+  <div class="flex h-full w-full items-center justify-center">
+    <img
+      data-lightbox-image
+      src={safeImages[0]}
+      alt={title}
+      class="max-h-[88vh] max-w-[92vw] object-contain"
+    />
   </div>
 </div>
 </div>
@@ -107,7 +109,7 @@ const safeImages = images.length ? images : [];
 <script>
   document.querySelectorAll("[data-carousel]").forEach((carousel) => {
     const images = Array.from(
-      carousel.querySelectorAll("[data-carousel-thumb] img")
+      carousel.querySelectorAll("[data-carousel-thumb] img"),
     ).map((img) => img.getAttribute("src"));
 
     let current = 0;
@@ -155,6 +157,7 @@ const safeImages = images.length ? images : [];
     carousel
       .querySelector("[data-lightbox-open]")
       ?.addEventListener("click", () => {
+        document.body.appendChild(lightbox);
         lightbox.classList.remove("hidden");
         document.body.style.overflow = "hidden";
       });
@@ -171,6 +174,10 @@ const safeImages = images.length ? images : [];
         lightbox.classList.add("hidden");
         document.body.style.overflow = "";
       }
+    });
+
+    lightboxImage?.addEventListener("click", (event) => {
+      event.stopPropagation();
     });
   });
 </script>

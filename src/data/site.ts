@@ -2,7 +2,7 @@ export const site = {
   name: "PhanatchaNuch",
   url: "https://phanatchanuch.com",
   defaultLang: "en",
-  email: "studio@phanatchanuch.com",
+  email: "phanatchanuch@gmail.com",
   instagram: "phanatchanuch.art",
   location: {
     en: "Chachoengsao, Thailand",
