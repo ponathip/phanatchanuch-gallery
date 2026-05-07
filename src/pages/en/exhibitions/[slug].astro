@@ -120,6 +120,7 @@ const exhibitionWorks = exhibition.artworks ?? [];
       </a>
     </div>
 
+    {exhibitionWorks.length > 0 ? (
     <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
       {exhibitionWorks.map((art, index) => (
         <a href={`/en/artworks/${art.slug}`} class="group">
@@ -156,6 +157,11 @@ const exhibitionWorks = exhibition.artworks ?? [];
         </a>
       ))}
     </div>
+    ) : (
+      <p class="text-sm text-black/50">
+        No artworks have been added to this exhibition yet.
+      </p>
+    )}
   </section>
 
   <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
