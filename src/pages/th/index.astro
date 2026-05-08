@@ -20,21 +20,25 @@ const currentExhibition = exhibitions[0];
   image={heroWork?.coverImageUrl ?? settings.defaultOgImage}
 >
   <!-- HERO -->
-  <section class="mx-auto grid min-h-screen max-w-7xl gap-12 px-5 pt-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-center md:px-8">
+  <section
+    class="mx-auto grid min-h-screen max-w-7xl gap-12 px-5 pt-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-center md:px-8"
+  >
     <div class="order-2 md:order-1">
       <p class="mb-8 text-xs uppercase tracking-[0.24em] text-black/45">
         Contemporary Artist
       </p>
 
-      <h1 class="serif max-w-full break-words text-[48px] leading-[0.95] sm:text-6xl md:text-8xl first-letter:text-[1.13em] first-letter:mr-[1px]">
+      <h1
+        class="serif max-w-full break-words text-[48px] leading-[0.95] sm:text-6xl md:text-8xl first-letter:text-[1.13em] first-letter:mr-[1px]"
+      >
         PhanatchaNuch
       </h1>
 
       <div class="my-10 h-px w-20 bg-black"></div>
 
       <p class="max-w-md text-sm leading-8 text-black/65">
-        โลกทัศน์ทางศิลปะที่เงียบ เรียบ และลึก ผ่าน texture, memory,
-        silence และร่องรอยทางอารมณ์ในผลงานนามธรรม
+        โลกทัศน์ทางศิลปะที่เงียบ เรียบ และลึก ผ่าน texture, memory, silence
+        และร่องรอยทางอารมณ์ในผลงานนามธรรม
       </p>
 
       <div class="mt-12 flex flex-col gap-4 sm:flex-row">
@@ -59,11 +63,13 @@ const currentExhibition = exhibitions[0];
         <img
           src={heroWork?.coverImageUrl}
           alt={`${heroWork.title} โดย PhanatchaNuch`}
-          class="image-soft h-[520px] w-full object-cover md:h-[720px]"
+          class="image-soft aspect-[16/10] w-full object-cover md:h-[720px] md:aspect-auto"
           loading="eager"
         />
 
-        <div class="absolute bottom-0 left-0 max-w-xs bg-[#f7f7f4]/90 p-5 backdrop-blur">
+        <div
+          class="absolute bottom-0 left-0 max-w-[70%] bg-[#f7f7f4]/90 p-4 backdrop-blur md:max-w-xs md:p-5"
+        >
           <p class="serif text-xl">{heroWork.title}</p>
           <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
             {heroWork?.year} · {heroWork?.category}
@@ -74,16 +80,16 @@ const currentExhibition = exhibitions[0];
   </section>
 
   <!-- SELECTED WORKS -->
-  <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
+  <section
+    class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8"
+  >
     <div class="grid gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-end">
       <div>
         <p class="mb-5 text-xs uppercase tracking-[0.24em] text-black/45">
           Selected Works
         </p>
 
-        <h2 class="serif text-5xl leading-tight md:text-7xl">
-          ผลงานที่คัดสรร
-        </h2>
+        <h2 class="serif text-5xl leading-tight md:text-7xl">ผลงานที่คัดสรร</h2>
       </div>
 
       <p class="max-w-lg text-sm leading-8 text-black/60 md:justify-self-end">
@@ -93,46 +99,48 @@ const currentExhibition = exhibitions[0];
     </div>
 
     <div class="mt-14 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-      {selectedWorks.map((art, index) => {
-        const isTall = index === 1 || index === 4;
+      {
+        selectedWorks.map((art, index) => {
+          const isTall = index === 1 || index === 4;
 
-        return (
-          <a href={`/th/artworks/${art.slug}`} class="group">
-            <div class="relative overflow-hidden bg-black/5">
-              <img
-                src={art.coverThumbUrl ?? art.coverImageUrl}
-                alt={`${art.title} โดย PhanatchaNuch`}
-                class:list={[
-                  "w-full object-cover transition duration-700 group-hover:scale-105",
-                  isTall ? "aspect-[3/4]" : "aspect-square",
-                ]}
-                loading="lazy"
-              />
+          return (
+            <a href={`/th/artworks/${art.slug}`} class="group">
+              <div class="relative overflow-hidden bg-black/5">
+                <img
+                  src={art.coverThumbUrl ?? art.coverImageUrl}
+                  alt={`${art.title} โดย PhanatchaNuch`}
+                  class:list={[
+                    "w-full object-cover transition duration-700 group-hover:scale-105",
+                    isTall ? "aspect-[3/4]" : "aspect-square",
+                  ]}
+                  loading="lazy"
+                />
 
-              <div class="absolute inset-0 bg-black/0 transition group-hover:bg-black/10"></div>
+                <div class="absolute inset-0 bg-black/0 transition group-hover:bg-black/10" />
 
-              <div class="absolute bottom-4 right-4 opacity-0 transition duration-500 group-hover:opacity-100">
-                <span class="rounded-full bg-black px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-white">
-                  ดูผลงาน →
+                <div class="absolute bottom-4 right-4 opacity-0 transition duration-500 group-hover:opacity-100">
+                  <span class="rounded-full bg-black px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-white">
+                    ดูผลงาน →
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-5 flex items-start justify-between gap-5">
+                <div>
+                  <h3 class="serif text-2xl leading-tight">{art.title}</h3>
+                  <p class="mt-2 text-sm text-black/50">
+                    {art.year} · {art.medium}
+                  </p>
+                </div>
+
+                <span class="hidden text-xs uppercase tracking-[0.18em] text-black/35 md:block">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
               </div>
-            </div>
-
-            <div class="mt-5 flex items-start justify-between gap-5">
-              <div>
-                <h3 class="serif text-2xl leading-tight">{art.title}</h3>
-                <p class="mt-2 text-sm text-black/50">
-                  {art.year} · {art.medium}
-                </p>
-              </div>
-
-              <span class="hidden text-xs uppercase tracking-[0.18em] text-black/35 md:block">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-            </div>
-          </a>
-        );
-      })}
+            </a>
+          );
+        })
+      }
     </div>
 
     <div class="mt-14 text-center">
@@ -147,7 +155,9 @@ const currentExhibition = exhibitions[0];
 
   <!-- WALL PAINTING -->
   <section class="bg-[#f7f7f4]">
-    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.85fr_1.15fr] md:items-center md:px-8">
+    <div
+      class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.85fr_1.15fr] md:items-center md:px-8"
+    >
       <div>
         <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
           Wall Painting
@@ -158,8 +168,8 @@ const currentExhibition = exhibitions[0];
         </h2>
 
         <p class="mt-8 max-w-md text-sm leading-8 text-black/65">
-          งานวาดภาพผนังแบบเฉพาะพื้นที่ สำหรับบ้าน คาเฟ่ โรงแรม แกลเลอรี
-          ออฟฟิศ และพื้นที่สร้างสรรค์
+          งานวาดภาพผนังแบบเฉพาะพื้นที่ สำหรับบ้าน คาเฟ่ โรงแรม แกลเลอรี ออฟฟิศ
+          และพื้นที่สร้างสรรค์
         </p>
 
         <a
@@ -170,22 +180,28 @@ const currentExhibition = exhibitions[0];
         </a>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        {wallProjects.slice(0, 2).map((item) => (
-          <img
-            src={item.coverThumbUrl ?? item.coverImageUrl}
-            alt={`${item.title} by PhanatchaNuch`}
-            class="mt-16 h-[460px] w-full object-cover"
-            loading="lazy"
-          />
-        ))}
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {
+          wallProjects
+            .slice(0, 2)
+            .map((item) => (
+              <img
+                src={item.coverThumbUrl ?? item.coverImageUrl}
+                alt={`${item.title} by PhanatchaNuch`}
+                class="mt-16 h-[460px] w-full object-cover"
+                loading="lazy"
+              />
+            ))
+        }
       </div>
     </div>
   </section>
 
   <!-- EXHIBITION -->
   <section class="bg-black text-white">
-    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.75fr_1.25fr] md:px-8">
+    <div
+      class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.75fr_1.25fr] md:px-8"
+    >
       <div>
         <p class="mb-6 text-xs uppercase tracking-[0.24em] text-white/45">
           Current Exhibition
@@ -195,7 +211,9 @@ const currentExhibition = exhibitions[0];
           {currentExhibition?.title}
         </h2>
 
-        <p class="mt-8 text-xs uppercase leading-7 tracking-[0.18em] text-white/65">
+        <p
+          class="mt-8 text-xs uppercase leading-7 tracking-[0.18em] text-white/65"
+        >
           {currentExhibition?.exhibitionDate}<br />
           {currentExhibition?.venue}
         </p>
@@ -222,7 +240,9 @@ const currentExhibition = exhibitions[0];
             ผ่านพื้นผิวและภาษาภาพแบบนามธรรม
           </p>
 
-          <div class="mt-12 space-y-5 text-xs uppercase tracking-[0.18em] text-white/50">
+          <div
+            class="mt-12 space-y-5 text-xs uppercase tracking-[0.18em] text-white/50"
+          >
             <p>Solo Presentation</p>
             <p>Mixed Media</p>
             <p>Artist: PhanatchaNuch</p>
@@ -276,7 +296,9 @@ const currentExhibition = exhibitions[0];
   </section>
 
   <!-- CONTACT -->
-  <section class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8">
+  <section
+    class="mx-auto max-w-7xl border-t border-black/10 px-5 py-20 md:px-8"
+  >
     <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
       <div>
         <p class="mb-5 text-xs uppercase tracking-[0.24em] text-black/45">
