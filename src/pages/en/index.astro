@@ -69,7 +69,15 @@ const currentExhibition = exhibitions[0];
         />
 
         <div
-          class="absolute bottom-0 left-0 max-w-[70%] bg-[#f7f7f4]/90 p-4 backdrop-blur md:max-w-xs md:p-5"
+          class="absolute
+    bottom-0 left-0
+    md:bottom-4 md:left-4
+    scale-50 md:scale-100
+    origin-bottom-left
+    bg-white/85
+    backdrop-blur-sm
+    shadow-lg
+    px-6 py-4"
         >
           <p class="serif text-xl">{heroWork.title}</p>
           <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
