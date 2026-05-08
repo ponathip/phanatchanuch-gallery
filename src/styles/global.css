@@ -30,6 +30,13 @@ html:lang(th) .serif {
   font-family: "Noto Serif Thai", "Noto Sans Thai", serif;
 }
 
+.brand-title,
+.brand-logo {
+  font-family: "Playfair Display", serif !important;
+  font-kerning: normal;
+  font-feature-settings: "kern";
+}
+
 a,
 button {
   transition:

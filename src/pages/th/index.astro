@@ -29,7 +29,7 @@ const currentExhibition = exhibitions[0];
       </p>
 
       <h1
-        class="serif max-w-full break-words text-[48px] leading-[0.95] sm:text-6xl md:text-8xl first-letter:text-[1.13em] first-letter:mr-[1px]"
+        class="brand-title serif max-w-full break-words text-[48px] leading-[0.95] sm:text-6xl md:text-8xl first-letter:text-[1.13em] first-letter:mr-[1px]"
       >
         PhanatchaNuch
       </h1>
@@ -51,32 +51,30 @@ const currentExhibition = exhibitions[0];
 
         <a
           href="/th/profile"
-          class="inline-flex items-center justify-between border border-black/20 px-7 py-4 text-xs uppercase tracking-[0.2em] transition hover:border-black"
+          class="brand-title inline-flex items-center justify-between border border-black/20 px-7 py-4 text-xs uppercase tracking-[0.2em] transition hover:border-black"
         >
           โปรไฟล์ศิลปิน <span class="ml-8">→</span>
         </a>
       </div>
     </div>
 
-    <div class="order-1 md:order-2">
-      <div class="relative">
-        <img
-          src={heroWork?.coverImageUrl}
-          alt={`${heroWork.title} โดย PhanatchaNuch`}
-          class="image-soft aspect-[16/10] w-full object-cover md:h-[720px] md:aspect-auto"
-          loading="eager"
-        />
+    <div class="order-1 lg:order-2">
+  <div class="relative w-full overflow-hidden">
+    <img
+      src={heroWork?.coverImageUrl}
+      alt={`${heroWork.title} โดย PhanatchaNuch`}
+      class="image-soft aspect-[16/10] w-full object-cover lg:h-[720px] lg:aspect-auto"
+      loading="eager"
+    />
 
-        <div
-          class="absolute bottom-0 left-0 max-w-[70%] bg-[#f7f7f4]/90 p-4 backdrop-blur md:max-w-xs md:p-5"
-        >
-          <p class="serif text-xl">{heroWork.title}</p>
-          <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
-            {heroWork?.year} · {heroWork?.category}
-          </p>
-        </div>
-      </div>
+    <div class="absolute bottom-0 left-0 max-w-[70%] bg-[#f7f7f4]/90 p-4 backdrop-blur md:max-w-xs md:p-5">
+      <p class="serif text-xl">{heroWork.title}</p>
+      <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
+        {heroWork?.year} · {heroWork?.category}
+      </p>
     </div>
+  </div>
+</div>
   </section>
 
   <!-- SELECTED WORKS -->
