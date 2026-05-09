@@ -39,7 +39,7 @@ const relatedWorks = allArtworks
     </a>
 
     <div class="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px] xl:gap-14">
-      <div>
+      <div class="min-w-0 max-w-full overflow-hidden">
         <ImageCarousel
           images={art.images?.length
             ? art.images.map((img) => img.imageUrl)
@@ -54,7 +54,7 @@ const relatedWorks = allArtworks
             Artwork
           </p>
 
-          <h1 class="serif text-[44px] leading-[1.05] md:text-[56px] xl:text-7xl">
+          <h1 class="serif max-w-full overflow-hidden break-words text-[36px] leading-[1.02] sm:text-[42px] md:text-[56px] xl:text-7xl">
             {art.title}
           </h1>
 

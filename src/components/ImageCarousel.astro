@@ -3,13 +3,13 @@ const { images = [], title = "Artwork image" } = Astro.props;
 const safeImages = images.length ? images : [];
 ---
 
-<div class="image-carousel" data-carousel>
-  <div class="relative flex min-w-0 items-center justify-center overflow-hidden bg-black/5">
+<div class="image-carousel w-full min-w-0 overflow-hidden" data-carousel>
+  <div class="relative flex w-full min-w-0 items-center justify-center overflow-hidden bg-black/5">
     <img
       data-carousel-main
       src={safeImages[0]}
       alt={title}
-      class="h-auto max-h-[70vh] w-full object-contain bg-white md:max-h-[620px]"
+      class="block h-auto max-h-[70vh] w-full max-w-full object-contain bg-white md:max-h-[620px]"
       loading="eager"
     />
 
@@ -40,7 +40,8 @@ const safeImages = images.length ? images : [];
     </button>
   </div>
 
-  <div class="mt-5 flex gap-3 overflow-x-auto pb-2">
+  <div class="mt-5 w-full max-w-full min-w-0 overflow-x-auto overscroll-x-contain pb-2">
+    <div class="flex w-max gap-3">
     {
       safeImages.map((image, index) => (
         <button
@@ -48,7 +49,7 @@ const safeImages = images.length ? images : [];
           data-carousel-thumb
           data-index={index}
           class:list={[
-            "h-24 w-24 shrink-0 overflow-hidden border bg-black/5 md:h-32 md:w-32",
+            "h-20 w-20 shrink-0 overflow-hidden border bg-black/5 sm:h-24 sm:w-24 md:h-32 md:w-32",
             index === 0 ? "border-black" : "border-transparent",
           ]}
         >
@@ -61,6 +62,7 @@ const safeImages = images.length ? images : [];
         </button>
       ))
     }
+    </div>
   </div>
 
   <div class="mt-4 flex items-center justify-center gap-2">

@@ -39,7 +39,7 @@ const relatedWorks = allArtworks
     </a>
 
     <div class="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px] xl:gap-14">
-      <div>
+      <div class="min-w-0 max-w-full overflow-hidden">
         <ImageCarousel
           images={art.images?.length
             ? art.images.map((img) => img.imageUrl)
