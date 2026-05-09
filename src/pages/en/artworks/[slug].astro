@@ -38,7 +38,7 @@ const relatedWorks = allArtworks
       ← Back to Gallery
     </a>
 
-    <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+    <div class="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px] xl:gap-14">
       <div>
         <ImageCarousel
           images={art.images?.length
@@ -48,13 +48,13 @@ const relatedWorks = allArtworks
         />
       </div>
 
-      <aside class="lg:sticky lg:top-28 lg:h-fit">
+      <aside class="min-w-0 lg:sticky lg:top-28 lg:h-fit">
         <div class="border-y border-black/10 py-8">
           <p class="mb-6 text-xs uppercase tracking-[0.22em] text-black/45">
             Artwork
           </p>
 
-          <h1 class="serif text-5xl leading-[1.05] md:text-7xl">
+          <h1 class="serif text-[44px] leading-[1.05] md:text-[56px] xl:text-7xl">
             {art.title}
           </h1>
 

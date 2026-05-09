@@ -4,12 +4,12 @@ const safeImages = images.length ? images : [];
 ---
 
 <div class="image-carousel" data-carousel>
-  <div class="relative overflow-hidden bg-black/5">
+  <div class="relative flex min-w-0 items-center justify-center overflow-hidden bg-black/5">
     <img
       data-carousel-main
       src={safeImages[0]}
       alt={title}
-      class="h-[420px] w-full object-cover md:h-[720px]"
+      class="h-auto max-h-[70vh] w-full object-contain bg-white md:max-h-[620px]"
       loading="eager"
     />
 
@@ -55,7 +55,7 @@ const safeImages = images.length ? images : [];
           <img
             src={image}
             alt={`${title} ${index + 1}`}
-            class="w-full max-h-[78vh] object-contain bg-white"
+            class="h-full w-full object-cover"
             loading="lazy"
           />
         </button>
@@ -95,6 +95,20 @@ const safeImages = images.length ? images : [];
     ×
   </button>
 
+  <button
+    type="button"
+    data-lightbox-prev
+    class="fixed left-4 top-1/2 z-[2147483647] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-3xl shadow"
+  >
+    ‹
+  </button>
+  <button
+  type="button"
+  data-lightbox-next
+  class="fixed right-4 top-1/2 z-[2147483647] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-3xl shadow"
+>
+  ›
+</button>
   <div class="flex h-full w-full items-center justify-center">
     <img
       data-lightbox-image
@@ -120,6 +134,8 @@ const safeImages = images.length ? images : [];
     const dots = carousel.querySelectorAll("[data-carousel-dot]");
     const lightbox = carousel.querySelector("[data-lightbox]");
     const lightboxImage = carousel.querySelector("[data-lightbox-image]");
+    const lightboxPrev = carousel.querySelector("[data-lightbox-prev]");
+    const lightboxNext = carousel.querySelector("[data-lightbox-next]");
 
     const update = (index) => {
       current = (index + images.length) % images.length;
@@ -178,6 +194,28 @@ const safeImages = images.length ? images : [];
 
     lightboxImage?.addEventListener("click", (event) => {
       event.stopPropagation();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (lightbox?.classList.contains("hidden")) return;
+
+      if (event.key === "ArrowLeft") update(current - 1);
+      if (event.key === "ArrowRight") update(current + 1);
+
+      if (event.key === "Escape") {
+        lightbox.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+    });
+
+    lightboxPrev?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      update(current - 1);
+    });
+
+    lightboxNext?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      update(current + 1);
     });
   });
 </script>
