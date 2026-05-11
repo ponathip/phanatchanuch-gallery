@@ -4,7 +4,9 @@ const safeImages = images.length ? images : [];
 ---
 
 <div class="image-carousel w-full min-w-0 overflow-hidden" data-carousel>
-  <div class="relative flex w-full min-w-0 items-center justify-center overflow-hidden bg-black/5">
+  <div
+    class="relative flex w-full min-w-0 items-center justify-center overflow-hidden bg-black/5"
+  >
     <img
       data-carousel-main
       src={safeImages[0]}
@@ -74,28 +76,30 @@ const safeImages = images.length ? images : [];
     </button>
   </div>
 
-  <div class="mt-5 w-full max-w-full min-w-0 overflow-x-auto overscroll-x-contain pb-2">
+  <div
+    class="mt-5 w-full max-w-full min-w-0 overflow-x-auto overscroll-x-contain pb-2"
+  >
     <div class="flex w-max gap-3">
-    {
-      safeImages.map((image, index) => (
-        <button
-          type="button"
-          data-carousel-thumb
-          data-index={index}
-          class:list={[
-            "h-20 w-20 shrink-0 overflow-hidden border bg-black/5 sm:h-24 sm:w-24 md:h-32 md:w-32",
-            index === 0 ? "border-black" : "border-transparent",
-          ]}
-        >
-          <img
-            src={image}
-            alt={`${title} ${index + 1}`}
-            class="h-full w-full object-cover"
-            loading="lazy"
-          />
-        </button>
-      ))
-    }
+      {
+        safeImages.map((image, index) => (
+          <button
+            type="button"
+            data-carousel-thumb
+            data-index={index}
+            class:list={[
+              "h-20 w-20 shrink-0 overflow-hidden border bg-black/5 sm:h-24 sm:w-24 md:h-32 md:w-32",
+              index === 0 ? "border-black" : "border-transparent",
+            ]}
+          >
+            <img
+              src={image}
+              alt={`${title} ${index + 1}`}
+              class="h-full w-full object-contain"
+              loading="lazy"
+            />
+          </button>
+        ))
+      }
     </div>
   </div>
 
@@ -118,42 +122,42 @@ const safeImages = images.length ? images : [];
     <span data-carousel-count>1</span> / {safeImages.length}
   </p>
 
-<div
-  data-lightbox
-  class="fixed inset-0 z-[2147483647] hidden bg-black/95 px-4 py-10"
->
-  <button
-    type="button"
-    data-lightbox-close
-    class="fixed right-6 top-6 z-[2147483647] flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl leading-none text-black shadow-lg"
-    aria-label="Close image viewer"
+  <div
+    data-lightbox
+    class="fixed inset-0 z-[2147483647] hidden bg-black/95 px-4 py-10"
   >
-    ×
-  </button>
+    <button
+      type="button"
+      data-lightbox-close
+      class="fixed right-6 top-6 z-[2147483647] flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl leading-none text-black shadow-lg"
+      aria-label="Close image viewer"
+    >
+      ×
+    </button>
 
-  <button
-    type="button"
-    data-lightbox-prev
-    class="fixed left-4 top-1/2 z-[2147483647] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-3xl shadow"
-  >
-    ‹
-  </button>
-  <button
-  type="button"
-  data-lightbox-next
-  class="fixed right-4 top-1/2 z-[2147483647] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-3xl shadow"
->
-  ›
-</button>
-  <div class="flex h-full w-full items-center justify-center">
-    <img
-      data-lightbox-image
-      src={safeImages[0]}
-      alt={title}
-      class="max-h-[88vh] max-w-[92vw] object-contain"
-    />
+    <button
+      type="button"
+      data-lightbox-prev
+      class="fixed left-4 top-1/2 z-[2147483647] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-3xl shadow"
+    >
+      ‹
+    </button>
+    <button
+      type="button"
+      data-lightbox-next
+      class="fixed right-4 top-1/2 z-[2147483647] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-3xl shadow"
+    >
+      ›
+    </button>
+    <div class="flex h-full w-full items-center justify-center">
+      <img
+        data-lightbox-image
+        src={safeImages[0]}
+        alt={title}
+        class="max-h-[88vh] max-w-[92vw] object-contain"
+      />
+    </div>
   </div>
-</div>
 </div>
 
 <script>

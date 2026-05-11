@@ -81,7 +81,7 @@ const currentExhibition = exhibitions[0];
         >
           <p class="serif text-xl">{heroWork.title}</p>
           <p class="mt-2 text-xs uppercase tracking-[0.18em] text-black/45">
-            {heroWork?.year} · {heroWork?.category}
+            {heroWork?.size} · {heroWork?.medium}
           </p>
         </div>
       </div>
@@ -139,7 +139,7 @@ const currentExhibition = exhibitions[0];
                 <div>
                   <h3 class="serif text-2xl leading-tight">{art.title}</h3>
                   <p class="mt-2 text-sm text-black/50">
-                    {art.year} · {art.medium}
+                    {art.size} · {art.medium}
                   </p>
                 </div>
 
@@ -161,52 +161,8 @@ const currentExhibition = exhibitions[0];
         View All Works →
       </a>
     </div>
-  </section>
-
-  <!-- WALL PAINTING -->
-  <section class="bg-[#f7f7f4]">
-    <div
-      class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.85fr_1.15fr] md:items-center md:px-8"
-    >
-      <div>
-        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
-          Wall Painting
-        </p>
-
-        <h2 class="serif text-5xl leading-tight md:text-7xl">
-          Custom artwork for real spaces.
-        </h2>
-
-        <p class="mt-8 max-w-md text-sm leading-8 text-black/65">
-          Site-specific wall painting for private residences, cafés, hotels,
-          galleries, offices, and creative interiors.
-        </p>
-
-        <a
-          href="/en/wall-painting"
-          class="mt-10 inline-flex border-b border-black pb-2 text-xs uppercase tracking-[0.2em]"
-        >
-          Explore Wall Painting →
-        </a>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {
-          wallProjects
-            .slice(0, 2)
-            .map((item) => (
-              <img
-                src={item.coverThumbUrl ?? item.coverImageUrl}
-                alt={`${item.title} by PhanatchaNuch`}
-                class="mt-16 h-[460px] w-full object-cover"
-                loading="lazy"
-              />
-            ))
-        }
-      </div>
-    </div>
-  </section>
-
+  </section>  
+  
   <!-- EXHIBITION -->
   <section class="bg-black text-white">
     <div
@@ -258,6 +214,50 @@ const currentExhibition = exhibitions[0];
             <p>Artist: PhanatchaNuch</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WALL PAINTING -->
+  <section class="bg-[#f7f7f4]">
+    <div
+      class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.85fr_1.15fr] md:items-center md:px-8"
+    >
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
+          Wall Painting
+        </p>
+
+        <h2 class="serif text-5xl leading-tight md:text-7xl">
+          Custom artwork for real spaces.
+        </h2>
+
+        <p class="mt-8 max-w-md text-sm leading-8 text-black/65">
+          Site-specific wall painting for private residences, cafés, hotels,
+          galleries, offices, and creative interiors.
+        </p>
+
+        <a
+          href="/en/wall-painting"
+          class="mt-10 inline-flex border-b border-black pb-2 text-xs uppercase tracking-[0.2em]"
+        >
+          Explore Wall Painting →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {
+          wallProjects
+            .slice(0, 2)
+            .map((item) => (
+              <img
+                src={item.coverThumbUrl ?? item.coverImageUrl}
+                alt={`${item.title} by PhanatchaNuch`}
+                class="mt-16 h-[460px] w-full object-cover"
+                loading="lazy"
+              />
+            ))
+        }
       </div>
     </div>
   </section>
