@@ -7,7 +7,7 @@ import ImageCarousel from "../../../components/ImageCarousel.astro";
 import StatsBar from "../../../components/StatsBar.astro";
 
 const slug = decodeURIComponent(
-  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? ""
+  Astro.url.pathname.split("/").filter(Boolean).at(-1) ?? "",
 );
 
 const project = await apiData(`/public/wall-projects/${slug}`);
@@ -58,7 +58,7 @@ const carouselImages = project.images?.length
         title={`${project.title} wall painting by PhanatchaNuch`}
       />
     </div>
-  
+
     <StatsBar
       type="wall-project"
       slug={project.slug}
@@ -67,9 +67,11 @@ const carouselImages = project.images?.length
       lang="en"
     />
   </section>
-  
+
   <section class="mx-auto max-w-7xl px-5 pb-20 md:px-8">
-    <div class="grid gap-6 border-y border-black/10 py-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div
+      class="grid gap-6 border-y border-black/10 py-8 sm:grid-cols-2 lg:grid-cols-4"
+    >
       <div>
         <p class="text-xs uppercase tracking-[0.22em] text-black/40">
           Location
@@ -78,30 +80,26 @@ const carouselImages = project.images?.length
       </div>
 
       <div>
-        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
-          Year
-        </p>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">Year</p>
         <p class="mt-3 text-sm text-black/70">{project.year}</p>
       </div>
 
       <div>
-        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
-          Space
-        </p>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">Space</p>
         <p class="mt-3 text-sm text-black/70">{project.spaceType}</p>
       </div>
 
       <div>
-        <p class="text-xs uppercase tracking-[0.22em] text-black/40">
-          Status
-        </p>
+        <p class="text-xs uppercase tracking-[0.22em] text-black/40">Status</p>
         <p class="mt-3 text-sm text-black/70">{project.status}</p>
       </div>
     </div>
   </section>
 
   <section class="bg-black text-white">
-    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.7fr_1.3fr] md:px-8">
+    <div
+      class="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-[0.7fr_1.3fr] md:px-8"
+    >
       <div>
         <p class="text-xs uppercase tracking-[0.24em] text-white/45">
           Project Concept
@@ -147,7 +145,9 @@ const carouselImages = project.images?.length
           loading="lazy"
         />
 
-        <span class="absolute bottom-5 left-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white">
+        <span
+          class="absolute bottom-5 left-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white"
+        >
           Before
         </span>
       </div>
@@ -160,7 +160,9 @@ const carouselImages = project.images?.length
           loading="lazy"
         />
 
-        <span class="absolute bottom-5 right-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white">
+        <span
+          class="absolute bottom-5 right-5 rounded-full bg-black px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white"
+        >
           After
         </span>
       </div>
@@ -169,7 +171,9 @@ const carouselImages = project.images?.length
 
   <section class="bg-[#f7f7f4]">
     <div class="mx-auto max-w-7xl px-5 py-24 md:px-8">
-      <div class="mb-12 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <div
+        class="mb-12 flex flex-col justify-between gap-8 md:flex-row md:items-end"
+      >
         <div>
           <p class="mb-5 text-xs uppercase tracking-[0.24em] text-black/45">
             Related Projects
@@ -189,29 +193,79 @@ const carouselImages = project.images?.length
       </div>
 
       <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-        {relatedProjects.map((item) => (
-          <a href={`/en/wall-painting/${item.slug}`} class="group">
-            <div class="overflow-hidden bg-black/5">
-              <img
-                src={item.coverThumbUrl ?? item.coverImageUrl}
-                alt={`${item.title} wall painting by PhanatchaNuch`}
-                class="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
+        {
+          relatedProjects.map((item) => (
+            <a href={`/en/wall-painting/${item.slug}`} class="group">
+              <div class="overflow-hidden bg-black/5">
+                <img
+                  src={item.coverThumbUrl ?? item.coverImageUrl}
+                  alt={`${item.title} wall painting by PhanatchaNuch`}
+                  class="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
 
-            <h3 class="serif mt-5 text-2xl">{item.title}</h3>
-            <p class="mt-2 text-sm text-black/50">
-              {item.year} · {item.location}
-            </p>
-          </a>
-        ))}
+              <h3 class="serif mt-5 text-2xl">{item.title}</h3>
+              <p class="mt-2 text-sm text-black/50">
+                {item.year} · {item.location}
+              </p>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
 
+  {
+    project.videoEmbedUrl && (
+      <section class="mx-auto max-w-7xl px-5 pb-20 md:px-8">
+        <div class="border-t border-black/10 pt-16">
+          <div class="mb-10 grid gap-8 md:grid-cols-[0.7fr_1.3fr] md:items-end">
+            <div>
+              <p class="mb-5 text-xs uppercase tracking-[0.24em] text-black/45">
+                Project Video
+              </p>
+
+              <h2 class="serif text-5xl leading-tight md:text-7xl">
+                Behind the process.
+              </h2>
+            </div>
+
+            <p class="max-w-lg text-sm leading-8 text-black/60 md:justify-self-end">
+              Watch the process, atmosphere, and completed wall painting
+              project.
+            </p>
+          </div>
+
+          <div
+            class={
+              project.videoPlatform === "youtube"
+                ? "overflow-hidden bg-black"
+                : "mx-auto max-w-md overflow-hidden bg-black"
+            }
+          >
+            <iframe
+              src={project.videoEmbedUrl}
+              title={`${project.title} video`}
+              class={
+                project.videoPlatform === "youtube"
+                  ? "aspect-video w-full"
+                  : "h-[680px] w-full"
+              }
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   <section class="mx-auto max-w-7xl px-5 py-24 md:px-8">
-    <div class="flex flex-col justify-between gap-10 border-y border-black/10 py-16 md:flex-row md:items-end">
+    <div
+      class="flex flex-col justify-between gap-10 border-y border-black/10 py-16 md:flex-row md:items-end"
+    >
       <div>
         <p class="mb-6 text-xs uppercase tracking-[0.24em] text-black/45">
           Project Inquiry
