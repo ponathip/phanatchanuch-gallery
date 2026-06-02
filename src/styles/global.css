@@ -229,3 +229,9 @@ button {
     transform: translateY(0);
   }
 }
+
+[data-carousel-main] {
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-drag: none;
+}
