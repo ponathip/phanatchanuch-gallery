@@ -235,3 +235,17 @@ button {
   user-select: none;
   -webkit-user-drag: none;
 }
+
+[data-carousel-main] {
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: opacity 180ms ease;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  [data-carousel-prev],
+  [data-carousel-next] {
+    display: none !important;
+  }
+}

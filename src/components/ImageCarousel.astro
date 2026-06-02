@@ -21,6 +21,7 @@ const safeImages = images.length ? images : [];
       class="absolute
     left-3
     top-1/2
+    hidden
     z-10
     flex
     h-11
@@ -35,7 +36,8 @@ const safeImages = images.length ? images : [];
     shadow-xl
     backdrop-blur-sm
     transition
-    hover:bg-black/85"
+    hover:bg-black/85
+    md:flex"
       aria-label="Previous image"
     >
       ‹
@@ -47,6 +49,7 @@ const safeImages = images.length ? images : [];
       class="absolute
     right-3
     top-1/2
+    hidden
     z-10
     flex
     h-11
@@ -61,7 +64,8 @@ const safeImages = images.length ? images : [];
     shadow-xl
     backdrop-blur-sm
     transition
-    hover:bg-black/85"
+    hover:bg-black/85
+    md:flex"
       aria-label="Next image"
     >
       ›
