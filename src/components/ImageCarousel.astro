@@ -168,6 +168,10 @@ const safeImages = images.length ? images : [];
 
     let current = 0;
 
+    // Swipe Main Image
+    let touchStartX = 0;
+    let touchEndX = 0;
+
     const main = carousel.querySelector("[data-carousel-main]");
     const count = carousel.querySelector("[data-carousel-count]");
     const thumbs = carousel.querySelectorAll("[data-carousel-thumb]");
@@ -176,6 +180,32 @@ const safeImages = images.length ? images : [];
     const lightboxImage = carousel.querySelector("[data-lightbox-image]");
     const lightboxPrev = carousel.querySelector("[data-lightbox-prev]");
     const lightboxNext = carousel.querySelector("[data-lightbox-next]");
+
+    main?.addEventListener(
+      "touchstart",
+      (event) => {
+        touchStartX = event.changedTouches[0].clientX;
+      },
+      { passive: true },
+    );
+
+    main?.addEventListener(
+      "touchend",
+      (event) => {
+        touchEndX = event.changedTouches[0].clientX;
+
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) < 50) return;
+
+        if (diff > 0) {
+          update(current + 1);
+        } else {
+          update(current - 1);
+        }
+      },
+      { passive: true },
+    );
 
     const update = (index) => {
       current = (index + images.length) % images.length;
@@ -235,6 +265,35 @@ const safeImages = images.length ? images : [];
     lightboxImage?.addEventListener("click", (event) => {
       event.stopPropagation();
     });
+
+    let lightboxStartX = 0;
+    let lightboxEndX = 0;
+
+    lightboxImage?.addEventListener(
+      "touchstart",
+      (event) => {
+        lightboxStartX = event.changedTouches[0].clientX;
+      },
+      { passive: true },
+    );
+
+    lightboxImage?.addEventListener(
+      "touchend",
+      (event) => {
+        lightboxEndX = event.changedTouches[0].clientX;
+
+        const diff = lightboxStartX - lightboxEndX;
+
+        if (Math.abs(diff) < 50) return;
+
+        if (diff > 0) {
+          update(current + 1);
+        } else {
+          update(current - 1);
+        }
+      },
+      { passive: true },
+    );
 
     document.addEventListener("keydown", (event) => {
       if (lightbox?.classList.contains("hidden")) return;
